@@ -14,11 +14,6 @@ public class SearchViewController: UIViewController {
     // IBOutlet UICollectionView
     // IBOutlet filter button
     
-    private lazy var navigator: SearchNavigator = {
-        let nv = SearchNavigator(navigationController: self.navigationController)
-        return nv
-    }()
-    
     private var viewModel = SearchViewModel()
     
     private var filterRelay = BehaviorRelay<Filter>(value: Filter())
@@ -32,7 +27,7 @@ public class SearchViewController: UIViewController {
     private func bindViewModel() {
         // bind filterRelay
         // paging use this as trigger -> collectionView.rx.rxReachedBottom (Tokopedia's)
-        // filter button navigate using SearchNavigator pass the filterRelay
+        // filter button -> present filter view controller
     }
 
 }

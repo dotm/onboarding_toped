@@ -10,7 +10,6 @@
 		43D651C7156A1BC3E4BC81D3 /* Pods_Onboarding_Search_Filter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8D358E027B4ADDFF42A31C /* Pods_Onboarding_Search_Filter.framework */; };
 		C010FF87216A3786002FF672 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C010FF86216A3786002FF672 /* Constants.swift */; };
 		C010FF89216A386E002FF672 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C010FF88216A386E002FF672 /* SearchViewModel.swift */; };
-		C010FF8B216A3895002FF672 /* SearchNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C010FF8A216A3895002FF672 /* SearchNavigator.swift */; };
 		C010FF8F216A392A002FF672 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C010FF8E216A392A002FF672 /* ViewModelType.swift */; };
 		C010FF97216A3F0E002FF672 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = C010FF96216A3F0E002FF672 /* Product.swift */; };
 		C010FF9B216A3F74002FF672 /* SearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C010FF9A216A3F74002FF672 /* SearchResponse.swift */; };
@@ -32,7 +31,6 @@
 		C0BADEB9216B615000B68B3B /* UIScrollView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BADEB8216B615000B68B3B /* UIScrollView+Rx.swift */; };
 		C0BADEBE216CB12700B68B3B /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BADEBC216CB12700B68B3B /* SearchCollectionViewCell.swift */; };
 		C0BADEBF216CB12700B68B3B /* SearchCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0BADEBD216CB12700B68B3B /* SearchCollectionViewCell.xib */; };
-		C0BADEC1216CB16D00B68B3B /* SearchCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BADEC0216CB16D00B68B3B /* SearchCollectionViewModel.swift */; };
 		C0EDDF4B216A2A230025A000 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EDDF4A216A2A230025A000 /* AppDelegate.swift */; };
 		C0EDDF4D216A2A230025A000 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EDDF4C216A2A230025A000 /* ViewController.swift */; };
 		C0EDDF50216A2A230025A000 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C0EDDF4E216A2A230025A000 /* Main.storyboard */; };
@@ -44,7 +42,6 @@
 		BD5B7B8983D5B3F1708CB188 /* Pods-Onboarding Search Filter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Onboarding Search Filter.release.xcconfig"; path = "Pods/Target Support Files/Pods-Onboarding Search Filter/Pods-Onboarding Search Filter.release.xcconfig"; sourceTree = "<group>"; };
 		C010FF86216A3786002FF672 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C010FF88216A386E002FF672 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
-		C010FF8A216A3895002FF672 /* SearchNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNavigator.swift; sourceTree = "<group>"; };
 		C010FF8E216A392A002FF672 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		C010FF96216A3F0E002FF672 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		C010FF9A216A3F74002FF672 /* SearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResponse.swift; sourceTree = "<group>"; };
@@ -66,7 +63,6 @@
 		C0BADEB8216B615000B68B3B /* UIScrollView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Rx.swift"; sourceTree = "<group>"; };
 		C0BADEBC216CB12700B68B3B /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		C0BADEBD216CB12700B68B3B /* SearchCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchCollectionViewCell.xib; sourceTree = "<group>"; };
-		C0BADEC0216CB16D00B68B3B /* SearchCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewModel.swift; sourceTree = "<group>"; };
 		C0EDDF47216A2A230025A000 /* Onboarding Search Filter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Onboarding Search Filter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0EDDF4A216A2A230025A000 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C0EDDF4C216A2A230025A000 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -121,7 +117,6 @@
 			children = (
 				C0BADEBC216CB12700B68B3B /* SearchCollectionViewCell.swift */,
 				C0BADEBD216CB12700B68B3B /* SearchCollectionViewCell.xib */,
-				C0BADEC0216CB16D00B68B3B /* SearchCollectionViewModel.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -170,7 +165,6 @@
 				C0B0CE29216A2EC700E806C8 /* SearchViewController.swift */,
 				C0B0CE2A216A2EC700E806C8 /* SearchViewController.xib */,
 				C010FF88216A386E002FF672 /* SearchViewModel.swift */,
-				C010FF8A216A3895002FF672 /* SearchNavigator.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -428,13 +422,11 @@
 				C0EDDF4D216A2A230025A000 /* ViewController.swift in Sources */,
 				C010FF97216A3F0E002FF672 /* Product.swift in Sources */,
 				C010FF9D216A3F89002FF672 /* Filter.swift in Sources */,
-				C0BADEC1216CB16D00B68B3B /* SearchCollectionViewModel.swift in Sources */,
 				C010FF87216A3786002FF672 /* Constants.swift in Sources */,
 				C0BADEA4216B2ECD00B68B3B /* FilterViewController.swift in Sources */,
 				C0B0CE34216A2F7200E806C8 /* Slider.swift in Sources */,
 				C0EDDF4B216A2A230025A000 /* AppDelegate.swift in Sources */,
 				C010FF8F216A392A002FF672 /* ViewModelType.swift in Sources */,
-				C010FF8B216A3895002FF672 /* SearchNavigator.swift in Sources */,
 				C0BADEA9216B2EEC00B68B3B /* FilterNavigator.swift in Sources */,
 				C0BADEB9216B615000B68B3B /* UIScrollView+Rx.swift in Sources */,
 			);
