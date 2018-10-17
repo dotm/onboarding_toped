@@ -281,7 +281,6 @@
 				C0EDDF44216A2A230025A000 /* Frameworks */,
 				C0EDDF45216A2A230025A000 /* Resources */,
 				79F5946C4AB4A3961EAB26F7 /* [CP] Embed Pods Frameworks */,
-				87821C0AC7ED9E00DD06A00A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -350,37 +349,26 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Onboarding Search Filter/Pods-Onboarding Search Filter-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Onboarding Search Filter/Pods-Onboarding Search Filter-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		87821C0AC7ED9E00DD06A00A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Onboarding Search Filter/Pods-Onboarding Search Filter-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E503A97A122E7ACC2B73A4BE /* [CP] Check Pods Manifest.lock */ = {

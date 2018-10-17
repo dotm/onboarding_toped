@@ -7,6 +7,7 @@
 
 import UIKit
 import RxCocoa
+import RxDataSources
 
 // access control
 public class SearchViewController: UIViewController {

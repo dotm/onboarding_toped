@@ -8,6 +8,7 @@ target 'Onboarding Search Filter' do
   pod 'Moya/RxSwift'
   pod 'RxCocoa'
   pod 'RxSwift'
+  pod 'RxDataSources'
 
 end
 
