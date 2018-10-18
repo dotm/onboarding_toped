@@ -11,6 +11,9 @@ import RxSwift
 
 public class SearchUseCase {
     public func requestSearch() -> Observable<SearchResponse> {
-        return Observable.of(SearchResponse(products: []))
+        let provider = MoyaProvider<AceTarget>()
+        let response = provider.rx.request(.getSearchResult()).map(SearchResponse.self)
+//        return Observable.of(SearchResponse(products: []))
+        return response.asObservable()
     }
 }
