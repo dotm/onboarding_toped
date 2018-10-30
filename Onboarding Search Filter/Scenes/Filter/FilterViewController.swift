@@ -10,44 +10,48 @@ import RxCocoa
 import RxSwift
 
 class FilterViewController: UIViewController {
+
+    @IBOutlet weak var maxPriceLabel: UILabel!
+    @IBOutlet weak var minPriceLabel: UILabel!
+    @IBOutlet weak var shopTypeButton: NSLayoutConstraint!
+    @IBOutlet weak var resetButton: UIButton!
+    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var applyButton: UIButton!
+    @IBOutlet weak var wholeSaleSwitch: UISwitch!
     
-    // minimum price label
-    // maximum price label
-    // slider (Tokopedia's)
-    // whole sale switch
-    // shop type button
-    // gold merchant filter view
-    // official store filter view
-    // reset button
-    // apply button
-    
-    private let filterRelay: BehaviorRelay<Filter>
-    
-    private lazy var navigator: FilterNavigator = {
-        let nv = FilterNavigator(navigationController: self.navigationController)
-        return nv
-    }()
-    
-    private var viewModel = FilterViewModel()
-    
-    public init(filterRelay: BehaviorRelay<Filter>) {
-        self.filterRelay = filterRelay
-        super.init(nibName: nil, bundle: nil)
+    private let disposeBag = DisposeBag()
+    var filterObject = Filter()
+    let filterSubject = PublishSubject<Filter>()
+    public var filterTrigger: Driver<Filter> {
+        return filterSubject.asDriver(onErrorJustReturn: filterObject)
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        wholeSaleSwitch.isOn = filterObject.wholesale
         bindViewModel()
     }
     
     private func bindViewModel() {
-        // use self.filterRelay, filterRelay.accept if button apply tapped
-        // shop type button navigate using navigator.openShopFilter, pass the filterRelay
+        closeButton.rx
+            .tap
+            .asDriver()
+            .drive(onNext: { _ in
+                self.navigationController?.dismiss(animated: true, completion: nil)
+            }).disposed(by: disposeBag)
 
+        let applyTap = applyButton.rx.tap.asDriver()
+        applyTap.drive(onNext: { (_) in
+            self.filterObject.start = 0
+            self.filterSubject.onNext(self.filterObject)
+            self.navigationController?.dismiss(animated: true, completion: nil)
+        }).disposed(by: disposeBag)
+        
+        let switchChanged = wholeSaleSwitch.rx.isOn.asDriver()
+        switchChanged.drive(onNext: { [weak self] (isOn) in
+            guard let self = self else { return }
+            self.filterObject.wholesale = isOn
+            self.resetButton.isHidden = !isOn
+        }).disposed(by: disposeBag)
     }
-
 }

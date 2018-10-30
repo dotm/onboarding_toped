@@ -36,6 +36,7 @@
 		C0EDDF50216A2A230025A000 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C0EDDF4E216A2A230025A000 /* Main.storyboard */; };
 		C0EDDF52216A2A250025A000 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0EDDF51216A2A250025A000 /* Assets.xcassets */; };
 		C0EDDF55216A2A250025A000 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C0EDDF53216A2A250025A000 /* LaunchScreen.storyboard */; };
+		E529F27D2186F2F30008DFA9 /* SearchCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E529F27C2186F2F30008DFA9 /* SearchCellViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +73,7 @@
 		C0EDDF56216A2A250025A000 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DD8D358E027B4ADDFF42A31C /* Pods_Onboarding_Search_Filter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Onboarding_Search_Filter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE43CAE8EB5BB9153FDA113F /* Pods-Onboarding Search Filter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Onboarding Search Filter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Onboarding Search Filter/Pods-Onboarding Search Filter.debug.xcconfig"; sourceTree = "<group>"; };
+		E529F27C2186F2F30008DFA9 /* SearchCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCellViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 			children = (
 				C0BADEBC216CB12700B68B3B /* SearchCollectionViewCell.swift */,
 				C0BADEBD216CB12700B68B3B /* SearchCollectionViewCell.xib */,
+				E529F27C2186F2F30008DFA9 /* SearchCellViewModel.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -404,6 +407,7 @@
 				C0BADEA7216B2EDA00B68B3B /* FilterViewModel.swift in Sources */,
 				C0B0CE33216A2F7200E806C8 /* RangeSlider.swift in Sources */,
 				C010FF89216A386E002FF672 /* SearchViewModel.swift in Sources */,
+				E529F27D2186F2F30008DFA9 /* SearchCellViewModel.swift in Sources */,
 				C0BADEB1216B32B100B68B3B /* SearchUseCase.swift in Sources */,
 				C0B0CE2B216A2EC700E806C8 /* SearchViewController.swift in Sources */,
 				C0BADEAC216B2F0700B68B3B /* ShopFilterViewController.swift in Sources */,

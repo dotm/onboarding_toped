@@ -8,7 +8,7 @@
 import Moya
 
 internal enum AceTarget {
-    case getSearchResult()
+    case fetchSearchResult(filter: Filter)
 }
 
 extension AceTarget: TargetType {
@@ -25,23 +25,32 @@ extension AceTarget: TargetType {
     /// The path to be appended to `baseURL` to form the full `URL`.
     internal var path: String {
         switch self {
-        case .getSearchResult:
-            return "/search/v2.5/product?q=samsung&pmin=10000&pmax=100000&wholesale=true&official=true&fshop=2&start=0&rows=10"
+        case .fetchSearchResult:
+            return "/search/v2.5/product"
         }
     }
     
     /// The HTTP method used in the request.
     internal var method: Moya.Method {
         switch self {
-        case .getSearchResult: return .get
+        case .fetchSearchResult: return .get
         }
     }
     
     /// The parameters to be incoded in the request.
     internal var parameters: [String: Any]? {
         switch self {
-        case let .getSearchResult():
-            return [:]
+        case let .fetchSearchResult(filter):
+            return [
+                "q": filter.q,
+                "pmin": filter.pmin,
+                "pmax": filter.pmax,
+                "wholesale": filter.wholesale,
+                "official": filter.official,
+                "fshop": filter.fshop,
+                "start": filter.start,
+                "rows": filter.rows
+            ]
         }
     }
     

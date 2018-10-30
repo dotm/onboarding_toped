@@ -8,6 +8,7 @@
 import UIKit
 import RxCocoa
 import RxDataSources
+import RxSwift
 
 // access control
 public class SearchViewController: UIViewController {
@@ -15,53 +16,79 @@ public class SearchViewController: UIViewController {
     // IBOutlet UICollectionView
     @IBOutlet weak var collectionView: UICollectionView!
     // IBOutlet filter button
-    @IBOutlet weak var filterButtom: UIButton!
-    
-    private var viewModel = SearchViewModel()
-    
-    private var filterRelay = BehaviorRelay<Filter>(value: Filter())
+    @IBOutlet weak var filterButton: UIButton!
 
+    
+    private let disposeBag = DisposeBag()
+    private var viewModel: SearchViewModel
+    let newFilterTrigger = PublishSubject<Filter>()
+
+    public init() {
+        viewModel = SearchViewModel(filter: Filter(), useCase: DefaultSearchUseCase())
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupUI()
         bindViewModel()
     }
     
-//    let collectionView: UICollectionView = {
-//        let layout = UICollectionViewFlowLayout()
-//        layout.minimumLineSpacing = 1
-//        layout.minimumInteritemSpacing = 0
-//        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        cv.translatesAutoresizingMaskIntoConstraints = false
-//        cv.addBackgroundColor(color: .backgroundGrey)
-//        return cv
-//    }()
-
-    private func bindViewModel() {
-        // bind filterRelay
-        let input = SearchViewModel.Input(viewDidloadTrigger: Driver.just(()))
-        let output = viewModel.transform(input: input)
-        // paging use this as trigger -> collectionView.rx.rxReachedBottom (Tokopedia's)
-
-        // filter button -> present filter view controller
-        collectionView.dataSource = self
+    private func setupUI() {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 1
+        layout.minimumInteritemSpacing = 0
+        collectionView.collectionViewLayout = layout
         collectionView.delegate = self
-        collectionView.register(UINib(nibName: "SearchCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "test")
+        collectionView.register(UINib(nibName: "SearchCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "SearchCollectionViewCell")
         
     }
 
+    private func bindViewModel() {
+        let loadMoreTrigger = collectionView.rxReachedBottom.asDriver { (error) -> Driver<Void> in
+            return .empty()
+        }
+        
+        let newFilterDriver = newFilterTrigger.asDriver { error -> Driver<Filter> in
+            return .empty()
+        }
+        
+        let input = SearchViewModel.Input(viewDidLoadTrigger: Driver.just(()),
+                                          loadMoreTrigger: loadMoreTrigger,
+                                          filterButtonTapTrigger: filterButton.rx.tap.asDriver(),
+                                          newFilterTrigger: newFilterDriver)
+        
+        let output = viewModel.transform(input: input)
+        
+        output.searchList.drive(collectionView.rx.items(cellIdentifier: "SearchCollectionViewCell", cellType: SearchCollectionViewCell.self)) {
+            _, viewModel, cell in
+            cell.bind(product: viewModel)
+        }.disposed(by: disposeBag)
+
+//        let _ = output.openFilter.do(onNext: { (_) in
+//            let filterViewController = FilterViewController()
+//            let newNavigationController = UINavigationController(rootViewController: filterViewController)
+//            self.navigationController?.present(newNavigationController, animated: true, completion: nil)
+//        }).drive()
+        
+        output.openFilter
+            .flatMapLatest { (filter) -> Driver<Filter> in
+                let filterVC = FilterViewController()
+                filterVC.filterObject = filter
+                let navigationController = UINavigationController(rootViewController: filterVC)
+                self.navigationController?.present(navigationController, animated: true, completion: nil)
+                return filterVC.filterTrigger
+        }
+        .drive(newFilterTrigger)
+        .disposed(by: disposeBag)
+    }
 }
 
-extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "test", for: indexPath) as! SearchCollectionViewCell
-        return cell
-    }
-    
+extension SearchViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width: CGFloat = (view.frame.width / 2) - 2
         let height: CGFloat = ((view.frame.width / 2) - 2) + 100

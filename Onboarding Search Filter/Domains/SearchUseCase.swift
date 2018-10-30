@@ -9,11 +9,18 @@ import Foundation
 import Moya
 import RxSwift
 
-public class SearchUseCase {
-    public func requestSearch() -> Observable<SearchResponse> {
-        let provider = MoyaProvider<AceTarget>()
-        let response = provider.rx.request(.getSearchResult()).map(SearchResponse.self)
-//        return Observable.of(SearchResponse(products: []))
-        return response.asObservable()
+protocol SearchUseCase {
+    func requestSearch(filter: Filter) -> Observable<SearchResponse>
+}
+
+class DefaultSearchUseCase:  SearchUseCase {
+    let provider = MoyaProvider<AceTarget>(plugins: [NetworkLoggerPlugin(verbose: true)])
+    
+    func requestSearch(filter: Filter) -> Observable<SearchResponse> {
+        return provider.rx.request(.fetchSearchResult(filter: filter))
+            .map(SearchResponse.self)
+            .asObservable()
+            .debug()
     }
 }
+
