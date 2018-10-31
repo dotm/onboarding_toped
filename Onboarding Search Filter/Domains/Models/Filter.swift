@@ -14,6 +14,5 @@ public struct Filter {
     var wholesale: Bool = false
     var official: Bool = false
     var fshop: Int = 0
-    var start: Int = 0
     var rows: Int = 10
 }

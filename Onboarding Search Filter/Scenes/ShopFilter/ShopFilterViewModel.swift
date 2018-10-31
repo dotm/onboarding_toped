@@ -13,6 +13,7 @@ import RxSwift
 @objc public final class ShopFilterViewModel: NSObject, ViewModelType {
     
     public struct Input {
+        
     }
     
     public struct Output {

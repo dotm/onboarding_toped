@@ -13,11 +13,11 @@ class FilterViewController: UIViewController {
 
     @IBOutlet weak var maxPriceLabel: UILabel!
     @IBOutlet weak var minPriceLabel: UILabel!
-    @IBOutlet weak var shopTypeButton: NSLayoutConstraint!
     @IBOutlet weak var resetButton: UIButton!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var applyButton: UIButton!
     @IBOutlet weak var wholeSaleSwitch: UISwitch!
+    @IBOutlet weak var shopTypeButton: UIButton!
     
     private let disposeBag = DisposeBag()
     var filterObject = Filter()
@@ -28,6 +28,7 @@ class FilterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.isNavigationBarHidden = true
         wholeSaleSwitch.isOn = filterObject.wholesale
         bindViewModel()
     }
@@ -39,10 +40,15 @@ class FilterViewController: UIViewController {
             .drive(onNext: { _ in
                 self.navigationController?.dismiss(animated: true, completion: nil)
             }).disposed(by: disposeBag)
+        
+        let shopTap = shopTypeButton.rx.tap.asDriver()
+        shopTap.drive(onNext: { _ in
+            self.navigationController?.pushViewController(ShopFilterViewController(), animated: true)
+        }).disposed(by: disposeBag)
+        
 
         let applyTap = applyButton.rx.tap.asDriver()
         applyTap.drive(onNext: { (_) in
-            self.filterObject.start = 0
             self.filterSubject.onNext(self.filterObject)
             self.navigationController?.dismiss(animated: true, completion: nil)
         }).disposed(by: disposeBag)

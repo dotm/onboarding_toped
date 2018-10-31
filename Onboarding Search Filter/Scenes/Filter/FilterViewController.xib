@@ -16,7 +16,7 @@
                 <outlet property="maxPriceLabel" destination="Fym-dD-X6a" id="Vh8-fk-97e"/>
                 <outlet property="minPriceLabel" destination="WKV-DR-HcD" id="sFY-6E-Iad"/>
                 <outlet property="resetButton" destination="4ky-t5-Omc" id="atF-xE-rS6"/>
-                <outlet property="shopTypeButton" destination="iFy-64-WNk" id="MbL-vK-ZsQ"/>
+                <outlet property="shopTypeButton" destination="4Vs-PD-6iy" id="mnD-XH-JjY"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="wholeSaleSwitch" destination="MTi-vq-HAc" id="M9q-uR-FRb"/>
             </connections>

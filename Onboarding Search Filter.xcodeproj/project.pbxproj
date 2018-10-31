@@ -37,6 +37,9 @@
 		C0EDDF52216A2A250025A000 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0EDDF51216A2A250025A000 /* Assets.xcassets */; };
 		C0EDDF55216A2A250025A000 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C0EDDF53216A2A250025A000 /* LaunchScreen.storyboard */; };
 		E529F27D2186F2F30008DFA9 /* SearchCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E529F27C2186F2F30008DFA9 /* SearchCellViewModel.swift */; };
+		E57E54F121895A12009B06F3 /* ShopViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57E54EF21895A12009B06F3 /* ShopViewTableViewCell.swift */; };
+		E57E54F221895A12009B06F3 /* ShopViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E57E54F021895A12009B06F3 /* ShopViewTableViewCell.xib */; };
+		E57E54F4218966B3009B06F3 /* ShopTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57E54F3218966B3009B06F3 /* ShopTypes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +77,9 @@
 		DD8D358E027B4ADDFF42A31C /* Pods_Onboarding_Search_Filter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Onboarding_Search_Filter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE43CAE8EB5BB9153FDA113F /* Pods-Onboarding Search Filter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Onboarding Search Filter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Onboarding Search Filter/Pods-Onboarding Search Filter.debug.xcconfig"; sourceTree = "<group>"; };
 		E529F27C2186F2F30008DFA9 /* SearchCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCellViewModel.swift; sourceTree = "<group>"; };
+		E57E54EF21895A12009B06F3 /* ShopViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopViewTableViewCell.swift; sourceTree = "<group>"; };
+		E57E54F021895A12009B06F3 /* ShopViewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShopViewTableViewCell.xib; sourceTree = "<group>"; };
+		E57E54F3218966B3009B06F3 /* ShopTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopTypes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +136,7 @@
 				C010FF99216A3F30002FF672 /* Response */,
 				C010FF96216A3F0E002FF672 /* Product.swift */,
 				C010FF9C216A3F89002FF672 /* Filter.swift */,
+				E57E54F3218966B3009B06F3 /* ShopTypes.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -186,6 +193,7 @@
 		C0B0CE28216A2E7E00E806C8 /* ShopFilter */ = {
 			isa = PBXGroup;
 			children = (
+				E57E54EE218959E8009B06F3 /* Cell */,
 				C0BADEAA216B2F0700B68B3B /* ShopFilterViewController.swift */,
 				C0BADEAB216B2F0700B68B3B /* ShopFilterViewController.xib */,
 				C0BADEB6216B3AB900B68B3B /* ShopFilterViewModel.swift */,
@@ -263,6 +271,15 @@
 			path = "Onboarding Search Filter";
 			sourceTree = "<group>";
 		};
+		E57E54EE218959E8009B06F3 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				E57E54EF21895A12009B06F3 /* ShopViewTableViewCell.swift */,
+				E57E54F021895A12009B06F3 /* ShopViewTableViewCell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		E8FB9491FFE2A81ACADE1CC3 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -333,6 +350,7 @@
 			files = (
 				C0BADEBF216CB12700B68B3B /* SearchCollectionViewCell.xib in Resources */,
 				C0EDDF55216A2A250025A000 /* LaunchScreen.storyboard in Resources */,
+				E57E54F221895A12009B06F3 /* ShopViewTableViewCell.xib in Resources */,
 				C0EDDF52216A2A250025A000 /* Assets.xcassets in Resources */,
 				C0B0CE2C216A2EC700E806C8 /* SearchViewController.xib in Resources */,
 				C0EDDF50216A2A230025A000 /* Main.storyboard in Resources */,
@@ -408,10 +426,12 @@
 				C0B0CE33216A2F7200E806C8 /* RangeSlider.swift in Sources */,
 				C010FF89216A386E002FF672 /* SearchViewModel.swift in Sources */,
 				E529F27D2186F2F30008DFA9 /* SearchCellViewModel.swift in Sources */,
+				E57E54F4218966B3009B06F3 /* ShopTypes.swift in Sources */,
 				C0BADEB1216B32B100B68B3B /* SearchUseCase.swift in Sources */,
 				C0B0CE2B216A2EC700E806C8 /* SearchViewController.swift in Sources */,
 				C0BADEAC216B2F0700B68B3B /* ShopFilterViewController.swift in Sources */,
 				C0EDDF4D216A2A230025A000 /* ViewController.swift in Sources */,
+				E57E54F121895A12009B06F3 /* ShopViewTableViewCell.swift in Sources */,
 				C010FF97216A3F0E002FF672 /* Product.swift in Sources */,
 				C010FF9D216A3F89002FF672 /* Filter.swift in Sources */,
 				C010FF87216A3786002FF672 /* Constants.swift in Sources */,

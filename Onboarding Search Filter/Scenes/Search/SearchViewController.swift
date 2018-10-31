@@ -68,19 +68,13 @@ public class SearchViewController: UIViewController {
             _, viewModel, cell in
             cell.bind(product: viewModel)
         }.disposed(by: disposeBag)
-
-//        let _ = output.openFilter.do(onNext: { (_) in
-//            let filterViewController = FilterViewController()
-//            let newNavigationController = UINavigationController(rootViewController: filterViewController)
-//            self.navigationController?.present(newNavigationController, animated: true, completion: nil)
-//        }).drive()
         
         output.openFilter
-            .flatMapLatest { (filter) -> Driver<Filter> in
+            .flatMapLatest { [weak self] (filter) -> Driver<Filter> in     
                 let filterVC = FilterViewController()
                 filterVC.filterObject = filter
                 let navigationController = UINavigationController(rootViewController: filterVC)
-                self.navigationController?.present(navigationController, animated: true, completion: nil)
+                self?.navigationController?.present(navigationController, animated: true, completion: nil)
                 return filterVC.filterTrigger
         }
         .drive(newFilterTrigger)

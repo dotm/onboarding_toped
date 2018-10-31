@@ -16,8 +16,8 @@ public class FilterNavigator {
         self.navigationController = navigationController
     }
     
-    public func openShopFilter(filterRelay: BehaviorRelay<Filter>) {
-        let viewController = ShopFilterViewController(filterRelay: filterRelay)
-        navigationController?.pushViewController(viewController, animated: true)
-    }
+//    public func openShopFilter(filterRelay: BehaviorRelay<Filter>) {
+//        let viewController = ShopFilterViewController(filterRelay: filterRelay)
+//        navigationController?.pushViewController(viewController, animated: true)
+//    }
 }

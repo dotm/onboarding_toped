@@ -35,11 +35,14 @@ import RxSwift
     public func transform(input: Input) -> Output {
         let filter = BehaviorRelay(value: self.filter)
         let currentProducts = BehaviorRelay(value: [Product]())
+//        let startPage = BehaviorRelay(value: 0)
+        var startPage = 0
 
         let newFilterTrigger = input.newFilterTrigger
             .map { _ in}
             .do(onNext: { _ in
                 currentProducts.accept([Product]())
+                startPage = 0
             })
 
         let filterDriver = Driver.merge(filter.asDriver(), input.newFilterTrigger)
@@ -49,31 +52,28 @@ import RxSwift
             .withLatestFrom(filterDriver)
             .flatMapLatest { (filter) -> Driver<SearchResponse> in
                 return self.useCase
-                    .requestSearch(filter: filter)
+                    .requestSearch(filter: filter, start: startPage)
                     .asDriver(onErrorRecover: { (error) -> Driver<SearchResponse> in
                         return .empty()
                     })
         }
         
+//        let combinedResponse = Driver.combineLatest(response, filterDriver)
+        
         let products = response.map { (response) -> [Product] in
             let products = response.products
             if products.count > 0 {
-                var currentFilter = filter.value
-                currentFilter.start = currentFilter.start + 10
-                filter.accept(currentFilter)
-                
+//                filter.accept(f)
                 let newProducts = currentProducts.value + products
+                startPage = startPage + 10
                 currentProducts.accept(newProducts)
             }
             return currentProducts.value
         }
         
         let openFilter = input.filterButtonTapTrigger
-            .withLatestFrom(filterDriver) { (_, filter) -> Filter in
-//                var newFilter = filter
-//                newFilter.wholesale = true
-//                return newFilter
-                return filter
+            .withLatestFrom(filterDriver) { (_, f) -> Filter in
+                return f
                 
         }
         
@@ -81,4 +81,3 @@ import RxSwift
     }
 
 }
-
