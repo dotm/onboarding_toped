@@ -35,7 +35,6 @@ import RxSwift
     public func transform(input: Input) -> Output {
         let filter = BehaviorRelay(value: self.filter)
         let currentProducts = BehaviorRelay(value: [Product]())
-//        let startPage = BehaviorRelay(value: 0)
         var startPage = 0
 
         let newFilterTrigger = input.newFilterTrigger
