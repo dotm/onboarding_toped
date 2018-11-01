@@ -8,11 +8,21 @@
 import Foundation
 
 public struct Filter {
-    var q: String = "Samsung"
-    var pmin: Int = 0
-    var pmax: Int = 0
-    var wholesale: Bool = false
-    var official: Bool = false
-    var fshop: Int = 0
-    var rows: Int = 10
+    var q: String
+    var pmin: Int
+    var pmax: Int
+    var wholesale: Bool
+    var official: Bool
+    var fshop: Int
+    var rows: Int
+    
+    init() {
+        q = "Samsung"
+        pmin = 0
+        pmax = 0
+        wholesale = false
+        official = false
+        fshop = 0
+        rows = 10
+    }
 }

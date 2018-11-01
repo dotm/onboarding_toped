@@ -71,8 +71,7 @@ public class SearchViewController: UIViewController {
         
         output.openFilter
             .flatMapLatest { [weak self] (filter) -> Driver<Filter> in     
-                let filterVC = FilterViewController()
-                filterVC.filterObject = filter
+                let filterVC = FilterViewController(filterObject: filter)
                 let navigationController = UINavigationController(rootViewController: filterVC)
                 self?.navigationController?.present(navigationController, animated: true, completion: nil)
                 return filterVC.filterTrigger
