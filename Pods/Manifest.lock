@@ -22,16 +22,6 @@ DEPENDENCIES:
   - RxDataSources
   - RxSwift
 
-SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
-    - Alamofire
-    - Differentiator
-    - Moya
-    - Result
-    - RxCocoa
-    - RxDataSources
-    - RxSwift
-
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   Differentiator: be49ca3408f0ecfc761e4c7763d20c62be01b9ad
@@ -43,4 +33,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 2967b516f220fc2e90cea911f8b8dde9944d8309
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.3.1

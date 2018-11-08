@@ -20,7 +20,7 @@ internal class ThumbLayer: CALayer {
         let cornerRadius = thumbFrame.width / 2.0
         let thumbPath = UIBezierPath(roundedRect: thumbFrame, cornerRadius: cornerRadius)
         
-        ctx.setStrokeColor(greenThemeColor.cgColor)
+        ctx.setStrokeColor(UIColor.tpGreen.cgColor)
         ctx.setLineWidth(2.5)
         ctx.addPath(thumbPath.cgPath)
         ctx.strokePath()

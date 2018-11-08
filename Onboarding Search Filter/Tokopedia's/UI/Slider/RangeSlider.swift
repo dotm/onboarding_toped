@@ -50,7 +50,7 @@ public class RangeSlider: UIControl {
         }
     }
     
-    public var trackHightlightTintColor: UIColor = greenThemeColor {
+    public var trackHightlightTintColor: UIColor = .tpGreen {
         didSet {
             trackLayer.setNeedsDisplay()
         }

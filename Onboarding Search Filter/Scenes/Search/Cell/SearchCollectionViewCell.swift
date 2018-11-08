@@ -17,6 +17,10 @@ class SearchCollectionViewCell: UICollectionViewCell {
     
     let disposeBag = DisposeBag()
     
+    override func awakeFromNib() {
+        price.textColor = .tpOrange
+    }
+    
     func bind(product: Product) {
         let viewModel = SearchCellViewModel(product: product)
         

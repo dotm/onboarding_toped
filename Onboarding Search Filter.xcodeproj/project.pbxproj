@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		43D651C7156A1BC3E4BC81D3 /* Pods_Onboarding_Search_Filter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8D358E027B4ADDFF42A31C /* Pods_Onboarding_Search_Filter.framework */; };
-		C010FF87216A3786002FF672 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C010FF86216A3786002FF672 /* Constants.swift */; };
+		C010FF87216A3786002FF672 /* UIColor+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C010FF86216A3786002FF672 /* UIColor+Theme.swift */; };
 		C010FF89216A386E002FF672 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C010FF88216A386E002FF672 /* SearchViewModel.swift */; };
 		C010FF8F216A392A002FF672 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C010FF8E216A392A002FF672 /* ViewModelType.swift */; };
 		C010FF97216A3F0E002FF672 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = C010FF96216A3F0E002FF672 /* Product.swift */; };
@@ -42,7 +42,7 @@
 
 /* Begin PBXFileReference section */
 		BD5B7B8983D5B3F1708CB188 /* Pods-Onboarding Search Filter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Onboarding Search Filter.release.xcconfig"; path = "Pods/Target Support Files/Pods-Onboarding Search Filter/Pods-Onboarding Search Filter.release.xcconfig"; sourceTree = "<group>"; };
-		C010FF86216A3786002FF672 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		C010FF86216A3786002FF672 /* UIColor+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Theme.swift"; sourceTree = "<group>"; };
 		C010FF88216A386E002FF672 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		C010FF8E216A392A002FF672 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		C010FF96216A3F0E002FF672 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -102,7 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				C0B0CE2E216A2F7200E806C8 /* Slider */,
-				C010FF86216A3786002FF672 /* Constants.swift */,
+				C010FF86216A3786002FF672 /* UIColor+Theme.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -287,6 +287,7 @@
 				C0EDDF44216A2A230025A000 /* Frameworks */,
 				C0EDDF45216A2A230025A000 /* Resources */,
 				79F5946C4AB4A3961EAB26F7 /* [CP] Embed Pods Frameworks */,
+				45A5D2C4EBAC87EFEDAABD32 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -347,6 +348,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		45A5D2C4EBAC87EFEDAABD32 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Onboarding Search Filter/Pods-Onboarding Search Filter-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		79F5946C4AB4A3961EAB26F7 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -418,7 +434,7 @@
 				C0EDDF4D216A2A230025A000 /* ViewController.swift in Sources */,
 				C010FF97216A3F0E002FF672 /* Product.swift in Sources */,
 				C010FF9D216A3F89002FF672 /* Filter.swift in Sources */,
-				C010FF87216A3786002FF672 /* Constants.swift in Sources */,
+				C010FF87216A3786002FF672 /* UIColor+Theme.swift in Sources */,
 				C0BADEA4216B2ECD00B68B3B /* FilterViewController.swift in Sources */,
 				C0B0CE34216A2F7200E806C8 /* Slider.swift in Sources */,
 				C0EDDF4B216A2A230025A000 /* AppDelegate.swift in Sources */,

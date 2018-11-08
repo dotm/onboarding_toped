@@ -13,11 +13,8 @@ import RxSwift
 // access control
 public class SearchViewController: UIViewController {
     
-    // IBOutlet UICollectionView
     @IBOutlet weak var collectionView: UICollectionView!
-    // IBOutlet filter button
     @IBOutlet weak var filterButton: UIButton!
-
     
     private let disposeBag = DisposeBag()
     private var viewModel: SearchViewModel
@@ -34,18 +31,31 @@ public class SearchViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
         bindViewModel()
     }
     
     private func setupUI() {
+        
+        title = "Search"
+        filterButton.backgroundColor = .tpGreen
+        self.navigationController?.navigationBar.isTranslucent = false
+        
+        let width = (view.frame.width - 1) / 2
+        let height = width + 80
+        
         let layout = UICollectionViewFlowLayout()
+        layout.minimumInteritemSpacing = 1
         layout.minimumLineSpacing = 1
-        layout.minimumInteritemSpacing = 0
+        layout.itemSize = CGSize(width: width, height: height)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        
         collectionView.collectionViewLayout = layout
-        collectionView.delegate = self
         collectionView.register(UINib(nibName: "SearchCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "SearchCollectionViewCell")
         
+    }
+    
+    public override func viewWillAppear(_ animated: Bool) {
+        setupUI()
     }
 
     private func bindViewModel() {
@@ -78,17 +88,5 @@ public class SearchViewController: UIViewController {
         }
         .drive(newFilterTrigger)
         .disposed(by: disposeBag)
-    }
-}
-
-extension SearchViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width: CGFloat = (view.frame.width / 2) - 2
-        let height: CGFloat = ((view.frame.width / 2) - 2) + 100
-        return CGSize(width: width, height: height)
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 1)
     }
 }
