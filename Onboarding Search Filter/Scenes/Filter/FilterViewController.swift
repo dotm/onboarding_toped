@@ -13,8 +13,6 @@ class FilterViewController: UIViewController {
 
     @IBOutlet weak var maxPriceLabel: UILabel!
     @IBOutlet weak var minPriceLabel: UILabel!
-    @IBOutlet weak var resetButton: UIButton!
-    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var applyButton: UIButton!
     @IBOutlet weak var wholeSaleSwitch: UISwitch!
     @IBOutlet weak var shopTypeButton: UIButton!
@@ -25,6 +23,9 @@ class FilterViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     private var viewModel: FilterViewModel
+    
+    private let closeButton = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: nil)
+    private let resetButton = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: nil)
     
     public init(filterObject: Filter) {
         viewModel = FilterViewModel(filter: filterObject)
@@ -46,8 +47,19 @@ class FilterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.isNavigationBarHidden = true
+        
+        setupNavBar()
         bindViewModel()
+    }
+    
+    private func setupNavBar() {
+        title = "Filter"
+        
+        closeButton.tintColor = .black
+        resetButton.tintColor = .tpGreen
+        
+        self.navigationItem.leftBarButtonItem = closeButton
+        self.navigationItem.rightBarButtonItem = resetButton
     }
     
     private func bindViewModel() {
@@ -73,7 +85,9 @@ class FilterViewController: UIViewController {
             .disposed(by: disposeBag)
 
         output.toggleReset
-            .drive(resetButton.rx.isHidden)
+            .drive(onNext: { [weak self] isHidden in
+                self?.navigationItem.rightBarButtonItem = isHidden ? nil : self?.resetButton
+            })
             .disposed(by: disposeBag)
         
 //        output.shopTypeTapped
@@ -99,12 +113,9 @@ class FilterViewController: UIViewController {
         
         output.showGoldMerchant.drive(goldMerchantView.rx.isHidden).disposed(by: disposeBag)
         output.showOfficialStore.drive(officialStoreView.rx.isHidden).disposed(by: disposeBag)
-
-        closeButton.rx
-            .tap
-            .asDriver()
-            .drive(onNext: { _ in
-                self.navigationController?.dismiss(animated: true, completion: nil)
-            }).disposed(by: disposeBag)
+        
+        closeButton.rx.tap.asDriver().drive(onNext: { [weak self] _ in
+            self?.navigationController?.dismiss(animated: true, completion: nil)
+        }).disposed(by: disposeBag)
     }
 }

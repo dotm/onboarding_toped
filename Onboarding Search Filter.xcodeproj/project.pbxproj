@@ -31,10 +31,10 @@
 		C0BADEB9216B615000B68B3B /* UIScrollView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BADEB8216B615000B68B3B /* UIScrollView+Rx.swift */; };
 		C0BADEBE216CB12700B68B3B /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BADEBC216CB12700B68B3B /* SearchCollectionViewCell.swift */; };
 		C0BADEBF216CB12700B68B3B /* SearchCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0BADEBD216CB12700B68B3B /* SearchCollectionViewCell.xib */; };
+		C0E5C32D219C407800D05D11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0E5C32C219C407800D05D11 /* Assets.xcassets */; };
 		C0EDDF4B216A2A230025A000 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EDDF4A216A2A230025A000 /* AppDelegate.swift */; };
 		C0EDDF4D216A2A230025A000 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EDDF4C216A2A230025A000 /* ViewController.swift */; };
 		C0EDDF50216A2A230025A000 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C0EDDF4E216A2A230025A000 /* Main.storyboard */; };
-		C0EDDF52216A2A250025A000 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0EDDF51216A2A250025A000 /* Assets.xcassets */; };
 		C0EDDF55216A2A250025A000 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C0EDDF53216A2A250025A000 /* LaunchScreen.storyboard */; };
 		E529F27D2186F2F30008DFA9 /* SearchCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E529F27C2186F2F30008DFA9 /* SearchCellViewModel.swift */; };
 		E57E54F4218966B3009B06F3 /* ShopTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57E54F3218966B3009B06F3 /* ShopTypes.swift */; };
@@ -65,11 +65,11 @@
 		C0BADEB8216B615000B68B3B /* UIScrollView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Rx.swift"; sourceTree = "<group>"; };
 		C0BADEBC216CB12700B68B3B /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		C0BADEBD216CB12700B68B3B /* SearchCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchCollectionViewCell.xib; sourceTree = "<group>"; };
+		C0E5C32C219C407800D05D11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C0EDDF47216A2A230025A000 /* Onboarding Search Filter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Onboarding Search Filter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0EDDF4A216A2A230025A000 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C0EDDF4C216A2A230025A000 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C0EDDF4F216A2A230025A000 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		C0EDDF51216A2A250025A000 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C0EDDF54216A2A250025A000 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C0EDDF56216A2A250025A000 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DD8D358E027B4ADDFF42A31C /* Pods_Onboarding_Search_Filter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Onboarding_Search_Filter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -256,10 +256,10 @@
 				C0B0CE25216A2CC000E806C8 /* Domains */,
 				C0BADEB2216B356B00B68B3B /* Networking */,
 				C0B0CE2D216A2F1100E806C8 /* Tokopedia's */,
+				C0E5C32C219C407800D05D11 /* Assets.xcassets */,
 				C0EDDF4A216A2A230025A000 /* AppDelegate.swift */,
 				C0EDDF4C216A2A230025A000 /* ViewController.swift */,
 				C0EDDF4E216A2A230025A000 /* Main.storyboard */,
-				C0EDDF51216A2A250025A000 /* Assets.xcassets */,
 				C0EDDF53216A2A250025A000 /* LaunchScreen.storyboard */,
 				C0EDDF56216A2A250025A000 /* Info.plist */,
 			);
@@ -337,9 +337,9 @@
 			files = (
 				C0BADEBF216CB12700B68B3B /* SearchCollectionViewCell.xib in Resources */,
 				C0EDDF55216A2A250025A000 /* LaunchScreen.storyboard in Resources */,
-				C0EDDF52216A2A250025A000 /* Assets.xcassets in Resources */,
 				C0B0CE2C216A2EC700E806C8 /* SearchViewController.xib in Resources */,
 				C0EDDF50216A2A230025A000 /* Main.storyboard in Resources */,
+				C0E5C32D219C407800D05D11 /* Assets.xcassets in Resources */,
 				C0BADEA5216B2ECD00B68B3B /* FilterViewController.xib in Resources */,
 				C0BADEAD216B2F0700B68B3B /* ShopFilterViewController.xib in Resources */,
 			);
