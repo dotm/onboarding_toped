@@ -34,6 +34,10 @@ public class SearchViewController: UIViewController {
         bindViewModel()
     }
     
+    public override func viewWillAppear(_ animated: Bool) {
+        setupUI()
+    }
+    
     private func setupUI() {
         
         title = "Search"
@@ -52,10 +56,6 @@ public class SearchViewController: UIViewController {
         collectionView.collectionViewLayout = layout
         collectionView.register(UINib(nibName: "SearchCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "SearchCollectionViewCell")
         
-    }
-    
-    public override func viewWillAppear(_ animated: Bool) {
-        setupUI()
     }
 
     private func bindViewModel() {
