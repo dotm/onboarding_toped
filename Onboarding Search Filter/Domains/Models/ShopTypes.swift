@@ -8,6 +8,4 @@
 import Foundation
 
 struct ShopTypes {
-    let isActive: Bool?
-    let title: String?
 }

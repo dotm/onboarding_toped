@@ -21,25 +21,9 @@ class SearchCellViewModel: ViewModelType {
     }
     
     struct Output {
-        let title: Driver<String>
-        let price: Driver<String>
-        let url: Driver<URL?>
     }
     
     func transform(input: SearchCellViewModel.Input) -> SearchCellViewModel.Output {
-        let product = Driver.just(self.product)
-        
-        let title = product.map { (product) -> String in
-            return product.name ?? ""
-        }
-        
-        let price = product.map { (product) -> String in
-            return product.price ?? ""
-        }
-        
-        let url = product.map { (product) -> URL? in
-            return URL(string: product.imageURLString!)
-        }
-        return Output(title: title, price: price, url: url)
+        return Output()
     }
 }

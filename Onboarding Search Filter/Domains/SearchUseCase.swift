@@ -13,14 +13,9 @@ protocol SearchUseCase {
     func requestSearch(filter: Filter, start: Int) -> Observable<SearchResponse>
 }
 
-class DefaultSearchUseCase:  SearchUseCase {
-    let provider = MoyaProvider<AceTarget>(plugins: [NetworkLoggerPlugin(verbose: true)])
-    
+class DefaultSearchUseCase:  SearchUseCase {    
     func requestSearch(filter: Filter, start: Int) -> Observable<SearchResponse> {
-        return provider.rx.request(.fetchSearchResult(filter: filter, start: start))
-            .map(SearchResponse.self)
-            .asObservable()
-            .debug()
+        return Observable.empty()
     }
 }
 

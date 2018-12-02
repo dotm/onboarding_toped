@@ -13,12 +13,8 @@ import RxSwift
 // access control
 public class SearchViewController: UIViewController {
     
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var filterButton: UIButton!
-    
     private let disposeBag = DisposeBag()
     private var viewModel: SearchViewModel
-    let newFilterTrigger = PublishSubject<Filter>()
 
     public init() {
         viewModel = SearchViewModel(filter: Filter(), useCase: DefaultSearchUseCase())
@@ -40,53 +36,8 @@ public class SearchViewController: UIViewController {
     
     private func setupUI() {
         
-        title = "Search"
-        filterButton.backgroundColor = .tpGreen
-        self.navigationController?.navigationBar.isTranslucent = false
-        
-        let width = (view.frame.width - 1) / 2
-        let height = width + 80
-        
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumInteritemSpacing = 1
-        layout.minimumLineSpacing = 1
-        layout.itemSize = CGSize(width: width, height: height)
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        
-        collectionView.collectionViewLayout = layout
-        collectionView.register(UINib(nibName: "SearchCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "SearchCollectionViewCell")
-        
     }
 
     private func bindViewModel() {
-        let loadMoreTrigger = collectionView.rxReachedBottom.asDriver { (error) -> Driver<Void> in
-            return .empty()
-        }
-        
-        let newFilterDriver = newFilterTrigger.asDriver { error -> Driver<Filter> in
-            return .empty()
-        }
-        
-        let input = SearchViewModel.Input(viewDidLoadTrigger: Driver.just(()),
-                                          loadMoreTrigger: loadMoreTrigger,
-                                          filterButtonTapTrigger: filterButton.rx.tap.asDriver(),
-                                          newFilterTrigger: newFilterDriver)
-        
-        let output = viewModel.transform(input: input)
-        
-        output.searchList.drive(collectionView.rx.items(cellIdentifier: "SearchCollectionViewCell", cellType: SearchCollectionViewCell.self)) {
-            _, viewModel, cell in
-            cell.bind(product: viewModel)
-        }.disposed(by: disposeBag)
-        
-        output.openFilter
-            .flatMapLatest { [weak self] (filter) -> Driver<Filter> in     
-                let filterVC = FilterViewController(filterObject: filter)
-                let navigationController = UINavigationController(rootViewController: filterVC)
-                self?.navigationController?.present(navigationController, animated: true, completion: nil)
-                return filterVC.filterTrigger
-        }
-        .drive(newFilterTrigger)
-        .disposed(by: disposeBag)
     }
 }

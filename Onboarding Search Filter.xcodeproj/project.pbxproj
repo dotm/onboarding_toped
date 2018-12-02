@@ -22,7 +22,6 @@
 		C0BADEA4216B2ECD00B68B3B /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BADEA2216B2ECD00B68B3B /* FilterViewController.swift */; };
 		C0BADEA5216B2ECD00B68B3B /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0BADEA3216B2ECD00B68B3B /* FilterViewController.xib */; };
 		C0BADEA7216B2EDA00B68B3B /* FilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BADEA6216B2EDA00B68B3B /* FilterViewModel.swift */; };
-		C0BADEA9216B2EEC00B68B3B /* FilterNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BADEA8216B2EEC00B68B3B /* FilterNavigator.swift */; };
 		C0BADEAC216B2F0700B68B3B /* ShopFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BADEAA216B2F0700B68B3B /* ShopFilterViewController.swift */; };
 		C0BADEAD216B2F0700B68B3B /* ShopFilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0BADEAB216B2F0700B68B3B /* ShopFilterViewController.xib */; };
 		C0BADEB1216B32B100B68B3B /* SearchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BADEB0216B32B100B68B3B /* SearchUseCase.swift */; };
@@ -56,7 +55,6 @@
 		C0BADEA2216B2ECD00B68B3B /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		C0BADEA3216B2ECD00B68B3B /* FilterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
 		C0BADEA6216B2EDA00B68B3B /* FilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModel.swift; sourceTree = "<group>"; };
-		C0BADEA8216B2EEC00B68B3B /* FilterNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterNavigator.swift; sourceTree = "<group>"; };
 		C0BADEAA216B2F0700B68B3B /* ShopFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopFilterViewController.swift; sourceTree = "<group>"; };
 		C0BADEAB216B2F0700B68B3B /* ShopFilterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShopFilterViewController.xib; sourceTree = "<group>"; };
 		C0BADEB0216B32B100B68B3B /* SearchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUseCase.swift; sourceTree = "<group>"; };
@@ -181,7 +179,6 @@
 				C0BADEA2216B2ECD00B68B3B /* FilterViewController.swift */,
 				C0BADEA3216B2ECD00B68B3B /* FilterViewController.xib */,
 				C0BADEA6216B2EDA00B68B3B /* FilterViewModel.swift */,
-				C0BADEA8216B2EEC00B68B3B /* FilterNavigator.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -439,7 +436,6 @@
 				C0B0CE34216A2F7200E806C8 /* Slider.swift in Sources */,
 				C0EDDF4B216A2A230025A000 /* AppDelegate.swift in Sources */,
 				C010FF8F216A392A002FF672 /* ViewModelType.swift in Sources */,
-				C0BADEA9216B2EEC00B68B3B /* FilterNavigator.swift in Sources */,
 				C0BADEB9216B615000B68B3B /* UIScrollView+Rx.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
