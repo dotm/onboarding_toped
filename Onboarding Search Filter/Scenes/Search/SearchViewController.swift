@@ -59,7 +59,8 @@ public class SearchViewController: UIViewController {
             return .empty()
         }
         
-        let newFilterDriver = Driver<Filter>.empty()    //todo
+        let newFilterSubject = PublishSubject<Filter>()
+        let newFilterDriver = newFilterSubject.asDriver(onErrorJustReturn: Filter())
         
         let input = SearchViewModel.Input(
             viewDidLoadTrigger: Driver.just(()),
@@ -78,7 +79,13 @@ public class SearchViewController: UIViewController {
             }.disposed(by: disposeBag)
         
         output.openFilter.drive(onNext: { [weak self] filter in
-            let filterVC = FilterViewController(filterObject: filter)
+            let filterVC = FilterViewController(
+                filterObject: filter,
+                handleApplyFilter: { [weak self] filter in
+                    self?.collectionView.setContentOffset(.zero, animated: true) //scroll to top
+                    newFilterSubject.onNext(filter)
+                }
+            )
             let navigationController = UINavigationController(rootViewController: filterVC)
             self?.navigationController?.present(navigationController, animated: true, completion: nil)
         }).disposed(by: disposeBag)

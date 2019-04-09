@@ -17,9 +17,12 @@ public struct Filter {
     var rows: Int
     
     init() {
-        q = "Samsung"
-        pmin = 0
-        pmax = 0
+        self.init(pmin: 0, pmax: 0)
+    }
+    init(pmin: Int, pmax: Int) {
+        self.q = "Samsung"
+        self.pmin = pmin
+        self.pmax = pmax
         wholesale = false
         official = false
         fshop = 0

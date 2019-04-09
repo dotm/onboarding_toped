@@ -15,12 +15,28 @@ PODS:
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
   - RxSwift (4.3.1)
+  - TagListView (1.3.2)
+  - TTRangeSlider (1.0.6)
 
 DEPENDENCIES:
   - Moya/RxSwift
   - RxCocoa
   - RxDataSources
   - RxSwift
+  - TagListView (~> 1.0)
+  - TTRangeSlider
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - Differentiator
+    - Moya
+    - Result
+    - RxCocoa
+    - RxDataSources
+    - RxSwift
+    - TagListView
+    - TTRangeSlider
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
@@ -30,7 +46,9 @@ SPEC CHECKSUMS:
   RxCocoa: 78763c7b07d02455598d9fc3c1ad091a28b73635
   RxDataSources: a843bad90c29817f5923ec8163f4af2de084ceb3
   RxSwift: fe0fd770a43acdb7d0a53da411c9b892e69bb6e4
+  TagListView: 0c7e9c26b9aff858224ee6b155f5fcacd9e27c83
+  TTRangeSlider: 78188bea83f6471a06f75adbc88da5e990baeafe
 
-PODFILE CHECKSUM: 2967b516f220fc2e90cea911f8b8dde9944d8309
+PODFILE CHECKSUM: 52d390fa159bd714128e8a6969b9ca2670644496
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.6.1

@@ -22,10 +22,20 @@ import RxSwift
     }
     
     public struct Output {
+        let selectedMinimum: Driver<Float>
+        let selectedMaximum: Driver<Float>
     }
     
     public func transform(input: Input) -> Output {
+        let filter = Driver.just(self.filter)
         
-        return Output()
+        let selectedMinimum = filter.map { (filter) -> Float in
+            return Float(filter.pmin)
+        }
+        let selectedMaximum = filter.map { (filter) -> Float in
+            return Float(filter.pmax)
+        }
+        
+        return Output(selectedMinimum: selectedMinimum, selectedMaximum: selectedMaximum)
     }
 }
