@@ -27,8 +27,6 @@ import RxSwift
     public struct Output {
         let minimumPriceText: Driver<String>
         let maximumPriceText: Driver<String>
-        let initialMinimumPrice: Driver<Float>
-        let initialMaximumPrice: Driver<Float>
         let wholesaleSwitch: Driver<Bool>
         let filter: Driver<Filter>
     }
@@ -54,14 +52,10 @@ import RxSwift
         let wholesaleSwitch = filterDriver.map { (filter) -> Bool in
             return filter.wholesale
         }
-        let initialMinimumPrice = Driver.just(Float(initialFilter.pmin))
-        let initialMaximumPrice = Driver.just(Float(initialFilter.pmax))
         
         return Output(
             minimumPriceText: minimumPriceText,
             maximumPriceText: maximumPriceText,
-            initialMinimumPrice: initialMinimumPrice,
-            initialMaximumPrice: initialMaximumPrice,
             wholesaleSwitch: wholesaleSwitch,
             filter: filterDriver
         )
