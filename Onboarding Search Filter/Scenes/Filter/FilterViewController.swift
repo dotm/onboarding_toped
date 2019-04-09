@@ -15,6 +15,7 @@ class FilterViewController: UIViewController {
     private weak var maximumPriceLabel: UILabel!
     private weak var priceSlider: TTRangeSlider!
     private weak var wholesaleSwitch: UISwitch!
+    private weak var applyFilterButton: UIButton!
     
     private let disposeBag = DisposeBag()
     private var viewModel: FilterViewModel
@@ -41,25 +42,41 @@ class FilterViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        let output = viewModel.transform(input: FilterViewModel.Input())
-        output.selectedMinimum.drive(onNext: { [weak self] (value) in
-            self?.priceSlider.selectedMinimum = value
-        }).disposed(by: disposeBag)
-        output.selectedMaximum.drive(onNext: { [weak self] (value) in
-            self?.priceSlider.selectedMaximum = value
-        }).disposed(by: disposeBag)
-        output.wholesaleSwitch.drive(onNext: { [weak self] (value) in
-            self?.wholesaleSwitch.setOn(value, animated: false)
-        }).disposed(by: disposeBag)
+        let viewDidLoadTrigger = Driver.just(())
         
-        priceSlider.rx.controlEvent(UIControlEvents.valueChanged)
-            .subscribe(onNext: { [weak self] (_) in
-                print(self?.priceSlider.selectedMinimum ?? 0, self?.priceSlider.selectedMaximum ?? 0)
-            }).disposed(by: disposeBag)
-        wholesaleSwitch.rx.controlEvent(.valueChanged)
-            .subscribe(onNext: { [weak self] (v) in
-                print(self?.wholesaleSwitch.isOn)
-            }).disposed(by: disposeBag)
+        let priceFilterChanged = priceSlider.rx.controlEvent(.valueChanged)
+            .map{ [weak self] () -> (lowerValue: Float, higherValue: Float) in
+                return (
+                    self?.priceSlider.selectedMinimum ?? 0,
+                    self?.priceSlider.selectedMaximum ?? 0
+                )
+            }
+            .asDriver(onErrorJustReturn: (lowerValue: 0, higherValue: 0))
+        let wholeSaleFilterChanged = wholesaleSwitch.rx.controlEvent(.valueChanged)
+            .map { [weak self] _ -> Bool in
+                return self?.wholesaleSwitch.isOn ?? false
+            }
+            .asDriver(onErrorJustReturn: false)
+        
+        let input = FilterViewModel.Input(
+            viewDidLoadTrigger: viewDidLoadTrigger,
+            priceFilterChanged: priceFilterChanged,
+            wholeSaleFilterChanged: wholeSaleFilterChanged
+        )
+        
+        let output = viewModel.transform(input: input)
+        output.minimumPriceText.drive(minimumPriceLabel.rx.text)
+            .disposed(by: disposeBag)
+        output.maximumPriceText.drive(maximumPriceLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        let applyFilterTrigger = applyFilterButton.rx.tap.asDriver()
+        applyFilterTrigger.flatMapLatest({ (_) -> Driver<Filter> in
+            return output.filter
+        }).drive(onNext: { [weak self] (newFilter) in
+            self?.handleApplyFilter(newFilter)
+            self?.closePage()
+        }).disposed(by: disposeBag)
     }
     private func setupLayout(){
         setupNavBar()
@@ -153,7 +170,6 @@ class FilterViewController: UIViewController {
         button.setTitle("Apply", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .tpGreen
-        button.addTarget(self, action: #selector(applyFilter_andClosePage), for: .touchUpInside)
         view.addSubview(button)
         
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -161,13 +177,7 @@ class FilterViewController: UIViewController {
         button.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         button.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-    }
-    @objc private func applyFilter_andClosePage(){
-        let pmin = Int(priceSlider.selectedMinimum)
-        let pmax = Int(priceSlider.selectedMaximum)
-        let wholesale = wholesaleSwitch.isOn
-        let newFilter = Filter(pmin: pmin, pmax: pmax, wholesale: wholesale)
-        handleApplyFilter(newFilter)
-        closePage()
+        
+        self.applyFilterButton = button
     }
 }
