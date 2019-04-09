@@ -46,7 +46,7 @@ class FilterViewController: UIViewController {
     private func bindViewModel() {
         let viewDidLoadTrigger = Driver.just(())
         
-        let priceFilterChanged = priceSlider.rx.controlEvent(.valueChanged)
+        let priceSliderChanged = priceSlider.rx.controlEvent(.valueChanged)
             .map{ [weak self] () -> (lowerValue: Float, higherValue: Float) in
                 return (
                     self?.priceSlider.selectedMinimum ?? 0,
@@ -62,7 +62,7 @@ class FilterViewController: UIViewController {
         
         let input = FilterViewModel.Input(
             viewDidLoadTrigger: viewDidLoadTrigger,
-            priceFilterChanged: priceFilterChanged,
+            priceSliderChanged: priceSliderChanged,
             wholeSaleFilterChanged: wholeSaleFilterChanged
         )
         

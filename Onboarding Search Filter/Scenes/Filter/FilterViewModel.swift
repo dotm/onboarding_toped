@@ -20,7 +20,7 @@ import RxSwift
     
     public struct Input {
         let viewDidLoadTrigger: Driver<Void>
-        let priceFilterChanged: Driver<(lowerValue: Float, higherValue: Float)>
+        let priceSliderChanged: Driver<(lowerValue: Float, higherValue: Float)>
         let wholeSaleFilterChanged: Driver<Bool>
     }
     
@@ -35,7 +35,7 @@ import RxSwift
     
     public func transform(input: Input) -> Output {
         let filterDriver = Driver.combineLatest(
-            input.priceFilterChanged.startWith((lowerValue: Float(initialFilter.pmin), higherValue: Float(initialFilter.pmax))),
+            input.priceSliderChanged.startWith((lowerValue: Float(initialFilter.pmin), higherValue: Float(initialFilter.pmax))),
             input.wholeSaleFilterChanged.startWith(initialFilter.wholesale)
         ).map { (priceRange, wholesale) -> Filter in
             return Filter(
