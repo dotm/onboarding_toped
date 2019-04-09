@@ -17,10 +17,12 @@ class FilterViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private var viewModel: FilterViewModel
     private var handleApplyFilter: (Filter)->()
+    private var didClose: (()->())?
     
-    public init(filterObject: Filter, handleApplyFilter: @escaping (Filter)->()) {
+    public init(filterObject: Filter, handleApplyFilter: @escaping (Filter)->(), didClose: (()->())? = nil) {
         viewModel = FilterViewModel(filter: filterObject)
         self.handleApplyFilter = handleApplyFilter
+        self.didClose = didClose
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -73,7 +75,7 @@ class FilterViewController: UIViewController {
         return button
     }
     @objc private func closePage(){
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: didClose)
     }
     
     private func setupPriceSlider() {

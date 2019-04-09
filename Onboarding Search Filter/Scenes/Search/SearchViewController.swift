@@ -81,9 +81,11 @@ public class SearchViewController: UIViewController {
         output.openFilter.drive(onNext: { [weak self] filter in
             let filterVC = FilterViewController(
                 filterObject: filter,
-                handleApplyFilter: { [weak self] filter in
-                    self?.collectionView.setContentOffset(.zero, animated: true) //scroll to top
+                handleApplyFilter: { filter in
                     newFilterSubject.onNext(filter)
+                },
+                didClose: { [weak self] in
+                    self?.collectionView.setContentOffset(.zero, animated: true) //scroll to top
                 }
             )
             let navigationController = UINavigationController(rootViewController: filterVC)
