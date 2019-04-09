@@ -11,7 +11,7 @@ import RxSwift
 import TTRangeSlider
 
 class FilterViewController: UIViewController {
-    private weak var slider: TTRangeSlider!
+    private weak var priceSlider: TTRangeSlider!
     
     private let disposeBag = DisposeBag()
     private var viewModel: FilterViewModel
@@ -38,20 +38,20 @@ class FilterViewController: UIViewController {
     private func bindViewModel() {
         let output = viewModel.transform(input: FilterViewModel.Input())
         output.selectedMinimum.drive(onNext: { [weak self] (value) in
-            self?.slider.selectedMinimum = value
+            self?.priceSlider.selectedMinimum = value
         }).disposed(by: disposeBag)
         output.selectedMaximum.drive(onNext: { [weak self] (value) in
-            self?.slider.selectedMaximum = value
+            self?.priceSlider.selectedMaximum = value
         }).disposed(by: disposeBag)
         
-        slider.rx.controlEvent(UIControlEvents.valueChanged)
+        priceSlider.rx.controlEvent(UIControlEvents.valueChanged)
             .subscribe(onNext: { [weak self] (_) in
-                print(self?.slider.selectedMinimum ?? 0, self?.slider.selectedMaximum ?? 0)
+                print(self?.priceSlider.selectedMinimum ?? 0, self?.priceSlider.selectedMaximum ?? 0)
             }).disposed(by: disposeBag)
     }
     private func setupLayout(){
         setupNavBar()
-        setupSlider()
+        setupPriceSlider()
         setupApplyButton()
     }
     private func setupNavBar() {
@@ -66,26 +66,26 @@ class FilterViewController: UIViewController {
     @objc private func closePage(){
         self.dismiss(animated: true, completion: nil)
     }
-    private func setupSlider() {
-        let slider = sliderFactory()
-        view.addSubview(slider)
+    private func setupPriceSlider() {
+        let priceSlider = priceSliderFactory()
+        view.addSubview(priceSlider)
         
-        slider.translatesAutoresizingMaskIntoConstraints = false
-        slider.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        slider.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        slider.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        slider.heightAnchor.constraint(lessThanOrEqualTo: view.heightAnchor).isActive = true
+        priceSlider.translatesAutoresizingMaskIntoConstraints = false
+        priceSlider.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        priceSlider.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        priceSlider.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        priceSlider.heightAnchor.constraint(lessThanOrEqualTo: view.heightAnchor).isActive = true
         
-        self.slider = slider
+        self.priceSlider = priceSlider
     }
-    private func sliderFactory() -> TTRangeSlider {
-        let slider = TTRangeSlider(frame: .zero)
-        slider.minValue = 0
-        slider.maxValue = 10_000_000
-        slider.enableStep = true
-        slider.step = 1000
+    private func priceSliderFactory() -> TTRangeSlider {
+        let priceslider = TTRangeSlider(frame: .zero)
+        priceslider.minValue = 0
+        priceslider.maxValue = 10_000_000
+        priceslider.enableStep = true
+        priceslider.step = 1000
         
-        return slider
+        return priceslider
     }
     private func setupApplyButton(){
         let button = UIButton()
@@ -102,8 +102,8 @@ class FilterViewController: UIViewController {
         button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
     @objc private func applyFilter_andClosePage(){
-        let pmin = Int(slider.selectedMinimum)
-        let pmax = Int(slider.selectedMaximum)
+        let pmin = Int(priceSlider.selectedMinimum)
+        let pmax = Int(priceSlider.selectedMaximum)
         let newFilter = Filter(pmin: pmin, pmax: pmax)
         handleApplyFilter(newFilter)
         closePage()
