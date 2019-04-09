@@ -101,6 +101,8 @@ class FilterViewController: UIViewController {
         self.dismiss(animated: true, completion: didClose)
     }
     private func setupPriceLabels() {
+        let margin = CGFloat(10)
+        
         let containerView = UIView()
         containerView.backgroundColor = .white
         view.addSubview(containerView)
@@ -109,7 +111,7 @@ class FilterViewController: UIViewController {
         containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         containerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         containerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        containerView.heightAnchor.constraint(equalToConstant: CGFloat(100)).isActive = true
+        containerView.heightAnchor.constraint(equalToConstant: CGFloat(50) + margin).isActive = true
         
         self.priceLabelsView = containerView
         
@@ -118,8 +120,8 @@ class FilterViewController: UIViewController {
         containerView.addSubview(minimumPriceLabel)
         
         minimumPriceLabel.translatesAutoresizingMaskIntoConstraints = false
-        minimumPriceLabel.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
-        minimumPriceLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
+        minimumPriceLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: margin).isActive = true
+        minimumPriceLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: margin).isActive = true
         minimumPriceLabel.widthAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: 0.5).isActive = true
         minimumPriceLabel.heightAnchor.constraint(lessThanOrEqualTo: containerView.heightAnchor).isActive = true
         
@@ -129,7 +131,7 @@ class FilterViewController: UIViewController {
         
         minimumPriceTextField.translatesAutoresizingMaskIntoConstraints = false
         minimumPriceTextField.topAnchor.constraint(equalTo: minimumPriceLabel.bottomAnchor).isActive = true
-        minimumPriceTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
+        minimumPriceTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: margin).isActive = true
         minimumPriceTextField.widthAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: 0.5).isActive = true
         minimumPriceTextField.heightAnchor.constraint(equalToConstant: CGFloat(30)).isActive = true
         self.minimumPriceTextField = minimumPriceTextField
@@ -140,9 +142,9 @@ class FilterViewController: UIViewController {
         view.addSubview(maximumPriceLabel)
         
         maximumPriceLabel.translatesAutoresizingMaskIntoConstraints = false
-        maximumPriceLabel.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
+        maximumPriceLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: margin).isActive = true
         maximumPriceLabel.leadingAnchor.constraint(equalTo: minimumPriceLabel.trailingAnchor).isActive = true
-        maximumPriceLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
+        maximumPriceLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -margin).isActive = true
         maximumPriceLabel.heightAnchor.constraint(lessThanOrEqualTo: containerView.heightAnchor).isActive = true
         
         let maximumPriceTextField = UITextField()
@@ -153,7 +155,7 @@ class FilterViewController: UIViewController {
         maximumPriceTextField.translatesAutoresizingMaskIntoConstraints = false
         maximumPriceTextField.topAnchor.constraint(equalTo: maximumPriceLabel.bottomAnchor).isActive = true
         maximumPriceTextField.leadingAnchor.constraint(equalTo: minimumPriceTextField.trailingAnchor).isActive = true
-        maximumPriceTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
+        maximumPriceTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -margin).isActive = true
         maximumPriceTextField.heightAnchor.constraint(equalToConstant: CGFloat(30)).isActive = true
         
         self.maximumPriceTextField = maximumPriceTextField
@@ -161,6 +163,7 @@ class FilterViewController: UIViewController {
     
     private func setupPriceSlider(previousElement: UIView) {
         let priceSlider = priceSliderFactory()
+        priceSlider.backgroundColor = .white
         view.addSubview(priceSlider)
         
         priceSlider.translatesAutoresizingMaskIntoConstraints = false
@@ -172,15 +175,23 @@ class FilterViewController: UIViewController {
         self.priceSlider = priceSlider
     }
     private func priceSliderFactory() -> TTRangeSlider {
-        let priceslider = TTRangeSlider(frame: .zero)
-        priceslider.minValue = 0
-        priceslider.maxValue = 10_000_000
-        priceslider.selectedMinimum = Float(initialFilter.pmin)
-        priceslider.selectedMaximum = Float(initialFilter.pmax)
-        priceslider.enableStep = true
-        priceslider.step = 1000
+        let priceSlider = TTRangeSlider(frame: .zero)
+        priceSlider.minValue = 0
+        priceSlider.maxValue = 10_000_000
+        priceSlider.selectedMinimum = Float(initialFilter.pmin)
+        priceSlider.selectedMaximum = Float(initialFilter.pmax)
+        priceSlider.enableStep = true
+        priceSlider.step = 1000
+        priceSlider.tintColor = .gray
+        priceSlider.tintColorBetweenHandles = .tpGreen
+//        priceSlider.minLabelColour = .tpGreen
+//        priceSlider.maxLabelColour = .tpGreen
+        priceSlider.hideLabels = true
+        priceSlider.handleColor = .white
+        priceSlider.handleBorderColor = .tpGreen
+        priceSlider.handleBorderWidth = CGFloat(1)
         
-        return priceslider
+        return priceSlider
     }
     
     private func setupWholesaleFilter(previousElement: UIView){
