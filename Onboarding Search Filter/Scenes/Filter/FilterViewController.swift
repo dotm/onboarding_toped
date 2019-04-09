@@ -11,6 +11,8 @@ import RxSwift
 import TTRangeSlider
 
 class FilterViewController: UIViewController {
+    private weak var minimumPriceLabel: UILabel!
+    private weak var maximumPriceLabel: UILabel!
     private weak var priceSlider: TTRangeSlider!
     private weak var wholesaleSwitch: UISwitch!
     
@@ -61,7 +63,8 @@ class FilterViewController: UIViewController {
     }
     private func setupLayout(){
         setupNavBar()
-        setupPriceSlider()
+        setupPriceLabels()
+        setupPriceSlider(previousElement: maximumPriceLabel)
         setupWholesaleFilter(previousElement: priceSlider)
         setupApplyButton()
     }
@@ -77,13 +80,38 @@ class FilterViewController: UIViewController {
     @objc private func closePage(){
         self.dismiss(animated: true, completion: didClose)
     }
+    private func setupPriceLabels() {
+        let minimumPriceLabel = UILabel()
+        minimumPriceLabel.text = "Min. Price: Rp 100.000,-"
+        view.addSubview(minimumPriceLabel)
+        
+        minimumPriceLabel.translatesAutoresizingMaskIntoConstraints = false
+        minimumPriceLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        minimumPriceLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        minimumPriceLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        minimumPriceLabel.heightAnchor.constraint(lessThanOrEqualTo: view.heightAnchor).isActive = true
+        
+        self.minimumPriceLabel = minimumPriceLabel
+        
+        let maximumPriceLabel = UILabel()
+        maximumPriceLabel.text = "Max. Price: Rp 1.000.000,-"
+        view.addSubview(maximumPriceLabel)
+        
+        maximumPriceLabel.translatesAutoresizingMaskIntoConstraints = false
+        maximumPriceLabel.topAnchor.constraint(equalTo: minimumPriceLabel.bottomAnchor).isActive = true
+        maximumPriceLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        maximumPriceLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        maximumPriceLabel.heightAnchor.constraint(lessThanOrEqualTo: view.heightAnchor).isActive = true
+        
+        self.maximumPriceLabel = maximumPriceLabel
+    }
     
-    private func setupPriceSlider() {
+    private func setupPriceSlider(previousElement: UIView) {
         let priceSlider = priceSliderFactory()
         view.addSubview(priceSlider)
         
         priceSlider.translatesAutoresizingMaskIntoConstraints = false
-        priceSlider.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        priceSlider.topAnchor.constraint(equalTo: previousElement.bottomAnchor).isActive = true
         priceSlider.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         priceSlider.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         priceSlider.heightAnchor.constraint(lessThanOrEqualTo: view.heightAnchor).isActive = true
