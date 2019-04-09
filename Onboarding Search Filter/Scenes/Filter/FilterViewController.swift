@@ -21,11 +21,13 @@ class FilterViewController: UIViewController {
     private var viewModel: FilterViewModel
     private var handleApplyFilter: (Filter)->()
     private var didClose: (()->())?
+    private let initialFilter: Filter
     
     public init(filterObject: Filter, handleApplyFilter: @escaping (Filter)->(), didClose: (()->())? = nil) {
         viewModel = FilterViewModel(filter: filterObject)
         self.handleApplyFilter = handleApplyFilter
         self.didClose = didClose
+        self.initialFilter = filterObject
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -139,6 +141,8 @@ class FilterViewController: UIViewController {
         let priceslider = TTRangeSlider(frame: .zero)
         priceslider.minValue = 0
         priceslider.maxValue = 10_000_000
+        priceslider.selectedMinimum = Float(initialFilter.pmin)
+        priceslider.selectedMaximum = Float(initialFilter.pmax)
         priceslider.enableStep = true
         priceslider.step = 1000
         
@@ -161,6 +165,7 @@ class FilterViewController: UIViewController {
         containerView.textLabel?.text = "Whole Sale"
         
         let wholesaleSwitch = UISwitch()
+        wholesaleSwitch.setOn(initialFilter.wholesale, animated: false)
         containerView.accessoryView = wholesaleSwitch
         self.wholesaleSwitch = wholesaleSwitch
     }
