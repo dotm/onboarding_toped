@@ -46,10 +46,10 @@ import RxSwift
         }
         
         let minimumPriceText = filterDriver.map { (filter) -> String in
-            return "Rp \(filter.pmin)"
+            return String(filter.pmin)
         }
         let maximumPriceText = filterDriver.map { (filter) -> String in
-            return "Rp \(filter.pmax)"
+            return String(filter.pmax)
         }
         let wholesaleSwitch = filterDriver.map { (filter) -> Bool in
             return filter.wholesale

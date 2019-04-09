@@ -11,8 +11,9 @@ import RxSwift
 import TTRangeSlider
 
 class FilterViewController: UIViewController {
-    private weak var minimumPriceLabel: UILabel!
-    private weak var maximumPriceLabel: UILabel!
+    private weak var priceLabelsView: UIView!
+    private weak var minimumPriceTextField: UITextField!
+    private weak var maximumPriceTextField: UITextField!
     private weak var priceSlider: TTRangeSlider!
     private weak var wholesaleSwitch: UISwitch!
     private weak var applyFilterButton: UIButton!
@@ -67,9 +68,9 @@ class FilterViewController: UIViewController {
         )
         
         let output = viewModel.transform(input: input)
-        output.minimumPriceText.drive(minimumPriceLabel.rx.text)
+        output.minimumPriceText.drive(minimumPriceTextField.rx.text)
             .disposed(by: disposeBag)
-        output.maximumPriceText.drive(maximumPriceLabel.rx.text)
+        output.maximumPriceText.drive(maximumPriceTextField.rx.text)
             .disposed(by: disposeBag)
         
         let applyFilterTrigger = applyFilterButton.rx.tap.asDriver()
@@ -83,7 +84,7 @@ class FilterViewController: UIViewController {
     private func setupLayout(){
         setupNavBar()
         setupPriceLabels()
-        setupPriceSlider(previousElement: maximumPriceLabel)
+        setupPriceSlider(previousElement: priceLabelsView)
         setupWholesaleFilter(previousElement: priceSlider)
         setupApplyButton()
     }
@@ -100,29 +101,62 @@ class FilterViewController: UIViewController {
         self.dismiss(animated: true, completion: didClose)
     }
     private func setupPriceLabels() {
+        let containerView = UIView()
+        containerView.backgroundColor = .white
+        view.addSubview(containerView)
+        
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        containerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        containerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        containerView.heightAnchor.constraint(equalToConstant: CGFloat(100)).isActive = true
+        
+        self.priceLabelsView = containerView
+        
         let minimumPriceLabel = UILabel()
-        minimumPriceLabel.text = "Min. Price: Rp 100.000,-"
-        view.addSubview(minimumPriceLabel)
+        minimumPriceLabel.text = "Min. Price (IDR)"
+        containerView.addSubview(minimumPriceLabel)
         
         minimumPriceLabel.translatesAutoresizingMaskIntoConstraints = false
-        minimumPriceLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        minimumPriceLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        minimumPriceLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        minimumPriceLabel.heightAnchor.constraint(lessThanOrEqualTo: view.heightAnchor).isActive = true
+        minimumPriceLabel.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
+        minimumPriceLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
+        minimumPriceLabel.widthAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: 0.5).isActive = true
+        minimumPriceLabel.heightAnchor.constraint(lessThanOrEqualTo: containerView.heightAnchor).isActive = true
         
-        self.minimumPriceLabel = minimumPriceLabel
+        let minimumPriceTextField = UITextField()
+        minimumPriceTextField.keyboardType = .numberPad
+        containerView.addSubview(minimumPriceTextField)
+        
+        minimumPriceTextField.translatesAutoresizingMaskIntoConstraints = false
+        minimumPriceTextField.topAnchor.constraint(equalTo: minimumPriceLabel.bottomAnchor).isActive = true
+        minimumPriceTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
+        minimumPriceTextField.widthAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: 0.5).isActive = true
+        minimumPriceTextField.heightAnchor.constraint(equalToConstant: CGFloat(30)).isActive = true
+        self.minimumPriceTextField = minimumPriceTextField
         
         let maximumPriceLabel = UILabel()
-        maximumPriceLabel.text = "Max. Price: Rp 1.000.000,-"
+        maximumPriceLabel.textAlignment = .right
+        maximumPriceLabel.text = "Max. Price (IDR)"
         view.addSubview(maximumPriceLabel)
         
         maximumPriceLabel.translatesAutoresizingMaskIntoConstraints = false
-        maximumPriceLabel.topAnchor.constraint(equalTo: minimumPriceLabel.bottomAnchor).isActive = true
-        maximumPriceLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        maximumPriceLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        maximumPriceLabel.heightAnchor.constraint(lessThanOrEqualTo: view.heightAnchor).isActive = true
+        maximumPriceLabel.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
+        maximumPriceLabel.leadingAnchor.constraint(equalTo: minimumPriceLabel.trailingAnchor).isActive = true
+        maximumPriceLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
+        maximumPriceLabel.heightAnchor.constraint(lessThanOrEqualTo: containerView.heightAnchor).isActive = true
         
-        self.maximumPriceLabel = maximumPriceLabel
+        let maximumPriceTextField = UITextField()
+        maximumPriceTextField.keyboardType = .numberPad
+        maximumPriceTextField.textAlignment = .right
+        containerView.addSubview(maximumPriceTextField)
+        
+        maximumPriceTextField.translatesAutoresizingMaskIntoConstraints = false
+        maximumPriceTextField.topAnchor.constraint(equalTo: maximumPriceLabel.bottomAnchor).isActive = true
+        maximumPriceTextField.leadingAnchor.constraint(equalTo: minimumPriceTextField.trailingAnchor).isActive = true
+        maximumPriceTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
+        maximumPriceTextField.heightAnchor.constraint(equalToConstant: CGFloat(30)).isActive = true
+        
+        self.maximumPriceTextField = maximumPriceTextField
     }
     
     private func setupPriceSlider(previousElement: UIView) {
