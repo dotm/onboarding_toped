@@ -17,13 +17,13 @@ public struct Filter {
     var rows: Int
     
     init() {
-        self.init(pmin: 0, pmax: 0)
+        self.init(pmin: 0, pmax: 0, wholesale: false)
     }
-    init(pmin: Int, pmax: Int) {
+    init(pmin: Int, pmax: Int, wholesale: Bool) {
         self.q = "Samsung"
         self.pmin = pmin
         self.pmax = pmax
-        wholesale = false
+        self.wholesale = wholesale
         official = false
         fshop = 0
         rows = 10

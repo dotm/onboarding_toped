@@ -24,6 +24,7 @@ import RxSwift
     public struct Output {
         let selectedMinimum: Driver<Float>
         let selectedMaximum: Driver<Float>
+        let wholesaleSwitch: Driver<Bool>
     }
     
     public func transform(input: Input) -> Output {
@@ -35,7 +36,14 @@ import RxSwift
         let selectedMaximum = filter.map { (filter) -> Float in
             return Float(filter.pmax)
         }
+        let wholesaleSwitch = filter.map { (filter) -> Bool in
+            return filter.wholesale
+        }
         
-        return Output(selectedMinimum: selectedMinimum, selectedMaximum: selectedMaximum)
+        return Output(
+            selectedMinimum: selectedMinimum,
+            selectedMaximum: selectedMaximum,
+            wholesaleSwitch: wholesaleSwitch
+        )
     }
 }

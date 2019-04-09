@@ -12,6 +12,7 @@ import TTRangeSlider
 
 class FilterViewController: UIViewController {
     private weak var priceSlider: TTRangeSlider!
+    private weak var wholesaleSwitch: UISwitch!
     
     private let disposeBag = DisposeBag()
     private var viewModel: FilterViewModel
@@ -43,15 +44,23 @@ class FilterViewController: UIViewController {
         output.selectedMaximum.drive(onNext: { [weak self] (value) in
             self?.priceSlider.selectedMaximum = value
         }).disposed(by: disposeBag)
+        output.wholesaleSwitch.drive(onNext: { [weak self] (value) in
+            self?.wholesaleSwitch.setOn(value, animated: false)
+        }).disposed(by: disposeBag)
         
         priceSlider.rx.controlEvent(UIControlEvents.valueChanged)
             .subscribe(onNext: { [weak self] (_) in
                 print(self?.priceSlider.selectedMinimum ?? 0, self?.priceSlider.selectedMaximum ?? 0)
             }).disposed(by: disposeBag)
+        wholesaleSwitch.rx.controlEvent(.valueChanged)
+            .subscribe(onNext: { [weak self] (v) in
+                print(self?.wholesaleSwitch.isOn)
+            }).disposed(by: disposeBag)
     }
     private func setupLayout(){
         setupNavBar()
         setupPriceSlider()
+        setupWholesaleFilter(previousElement: priceSlider)
         setupApplyButton()
     }
     private func setupNavBar() {
@@ -66,6 +75,7 @@ class FilterViewController: UIViewController {
     @objc private func closePage(){
         self.dismiss(animated: true, completion: nil)
     }
+    
     private func setupPriceSlider() {
         let priceSlider = priceSliderFactory()
         view.addSubview(priceSlider)
@@ -87,6 +97,27 @@ class FilterViewController: UIViewController {
         
         return priceslider
     }
+    
+    private func setupWholesaleFilter(previousElement: UIView){
+        let containerView = UITableViewCell(style: .value1, reuseIdentifier: "wholesale filter")
+        containerView.backgroundColor = .white
+        view.addSubview(containerView)
+        
+        //set constraint
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.topAnchor.constraint(equalTo: previousElement.bottomAnchor).isActive = true
+        containerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        containerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        containerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50).isActive = true
+        
+        //set cell properties
+        containerView.textLabel?.text = "Whole Sale"
+        
+        let wholesaleSwitch = UISwitch()
+        containerView.accessoryView = wholesaleSwitch
+        self.wholesaleSwitch = wholesaleSwitch
+    }
+    
     private func setupApplyButton(){
         let button = UIButton()
         button.setTitle("Apply", for: .normal)
@@ -104,7 +135,8 @@ class FilterViewController: UIViewController {
     @objc private func applyFilter_andClosePage(){
         let pmin = Int(priceSlider.selectedMinimum)
         let pmax = Int(priceSlider.selectedMaximum)
-        let newFilter = Filter(pmin: pmin, pmax: pmax)
+        let wholesale = wholesaleSwitch.isOn
+        let newFilter = Filter(pmin: pmin, pmax: pmax, wholesale: wholesale)
         handleApplyFilter(newFilter)
         closePage()
     }
