@@ -15,7 +15,9 @@ class FilterViewController: UIViewController {
     private weak var minimumPriceTextField: UITextField!
     private weak var maximumPriceTextField: UITextField!
     private weak var priceSlider: TTRangeSlider!
+    private weak var wholesaleFilterView: UIView!
     private weak var wholesaleSwitch: UISwitch!
+    private weak var goTo_shopTypePage_button: UIButton!
     private weak var applyFilterButton: UIButton!
     
     private let disposeBag = DisposeBag()
@@ -104,12 +106,20 @@ class FilterViewController: UIViewController {
             self?.handleApplyFilter(newFilter)
             self?.closePage()
         }).disposed(by: disposeBag)
+        
+        let goTo_shopTypePage_trigger = goTo_shopTypePage_button.rx.tap.asDriver()
+        goTo_shopTypePage_trigger.drive(onNext: { [weak self] () in
+            guard let filter = self?.initialFilter else {return}
+            let shopTypePage = ShopFilterViewController(filterObject: filter)
+            self?.navigationController?.pushViewController(shopTypePage, animated: true)
+        }).disposed(by: disposeBag)
     }
     private func setupLayout(){
         setupNavBar()
         setupPriceLabels()
         setupPriceSlider(previousElement: priceLabelsView)
         setupWholesaleFilter(previousElement: priceSlider)
+        setupShopTypeView(previousElement: wholesaleFilterView)
         setupApplyButton()
     }
     private func setupNavBar() {
@@ -222,7 +232,7 @@ class FilterViewController: UIViewController {
         let containerView = UITableViewCell(style: .value1, reuseIdentifier: "wholesale filter")
         containerView.backgroundColor = .white
         view.addSubview(containerView)
-        
+        self.wholesaleFilterView = containerView
         //set constraint
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.topAnchor.constraint(equalTo: previousElement.bottomAnchor).isActive = true
@@ -232,11 +242,28 @@ class FilterViewController: UIViewController {
         
         //set cell properties
         containerView.textLabel?.text = "Whole Sale"
-        
         let wholesaleSwitch = UISwitch()
         wholesaleSwitch.setOn(initialFilter.wholesale, animated: false)
         containerView.accessoryView = wholesaleSwitch
         self.wholesaleSwitch = wholesaleSwitch
+    }
+    private func setupShopTypeView(previousElement: UIView){
+        let shopTypeTitleView = UITableViewCell(style: .value1, reuseIdentifier: "shop type filter")
+        shopTypeTitleView.backgroundColor = .white
+        view.addSubview(shopTypeTitleView)
+        
+        shopTypeTitleView.translatesAutoresizingMaskIntoConstraints = false
+        shopTypeTitleView.topAnchor.constraint(equalTo: previousElement.bottomAnchor, constant: CGFloat(20)).isActive = true
+        shopTypeTitleView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        shopTypeTitleView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        shopTypeTitleView.heightAnchor.constraint(greaterThanOrEqualToConstant: CGFloat(50)).isActive = true
+        
+        shopTypeTitleView.textLabel?.text = "Shop Type"
+        let goTo_shopTypePage_button = UIButton()
+        goTo_shopTypePage_button.setImage(UIImage(named: "next"), for: .normal)
+        goTo_shopTypePage_button.sizeToFit()
+        shopTypeTitleView.accessoryView = goTo_shopTypePage_button
+        self.goTo_shopTypePage_button = goTo_shopTypePage_button
     }
     
     private func setupApplyButton(){

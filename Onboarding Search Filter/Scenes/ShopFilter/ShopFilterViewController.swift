@@ -25,7 +25,20 @@ class ShopFilterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavBar()
         bindViewModel()
+    }
+    private func setupNavBar() {
+        self.navigationItem.title = "Shop Type"
+        self.navigationItem.leftBarButtonItem = closeButton
+    }
+    private var closeButton: UIBarButtonItem {
+        let button = UIBarButtonItem(image: UIImage(named: "cross"), style: .plain, target: self, action: #selector(closePage))
+        button.tintColor = .gray
+        return button
+    }
+    @objc private func closePage(){
+        self.navigationController?.popViewController(animated: true)
     }
     
     private func bindViewModel() {
