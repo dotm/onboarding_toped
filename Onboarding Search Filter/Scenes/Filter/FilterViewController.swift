@@ -40,6 +40,7 @@ class FilterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.hideKeyboard()
         setupLayout()
         bindViewModel()
     }
@@ -47,8 +48,19 @@ class FilterViewController: UIViewController {
     private func bindViewModel() {
         let viewDidLoadTrigger = Driver.just(())
         
+        let minimumPriceTextFieldChanged = minimumPriceTextField.rx.controlEvent(.editingDidEnd)
+            .map{ [weak self] () -> Float in
+                let lowerValue = Float(self?.minimumPriceTextField.text ?? "0") ?? 0
+                return lowerValue
+            }.asDriver(onErrorJustReturn: 0)
+        let maximumPriceTextFieldChanged = maximumPriceTextField.rx.controlEvent(.editingDidEnd)
+            .map{ [weak self] () -> Float in
+                let higherValue = Float(self?.maximumPriceTextField.text ?? "0") ?? 0
+                return higherValue
+            }.asDriver(onErrorJustReturn: 0)
+        
         let priceSliderChanged = priceSlider.rx.controlEvent(.valueChanged)
-            .map{ [weak self] () -> (lowerValue: Float, higherValue: Float) in
+            .map{ [weak self] () -> (Float, Float) in
                 return (
                     self?.priceSlider.selectedMinimum ?? 0,
                     self?.priceSlider.selectedMaximum ?? 0
@@ -63,6 +75,8 @@ class FilterViewController: UIViewController {
         
         let input = FilterViewModel.Input(
             viewDidLoadTrigger: viewDidLoadTrigger,
+            minimumPriceTextFieldChanged: minimumPriceTextFieldChanged,
+            maximumPriceTextFieldChanged: maximumPriceTextFieldChanged,
             priceSliderChanged: priceSliderChanged,
             wholeSaleFilterChanged: wholeSaleFilterChanged
         )
@@ -71,6 +85,16 @@ class FilterViewController: UIViewController {
         output.minimumPriceText.drive(minimumPriceTextField.rx.text)
             .disposed(by: disposeBag)
         output.maximumPriceText.drive(maximumPriceTextField.rx.text)
+            .disposed(by: disposeBag)
+        output.selectedMinimum.drive(onNext: { [weak self] (value) in
+            self?.priceSlider.selectedMinimum = value
+            self?.minimumPriceTextField.text = String(Int(value))
+        }).disposed(by: disposeBag)
+        output.selectedMaximum.drive(onNext: { [weak self] (value) in
+            self?.priceSlider.selectedMaximum = value
+            self?.maximumPriceTextField.text = String(Int(value))
+        }).disposed(by: disposeBag)
+        output.wholesaleSwitch.drive(wholesaleSwitch.rx.isOn)
             .disposed(by: disposeBag)
         
         let applyFilterTrigger = applyFilterButton.rx.tap.asDriver()
@@ -229,5 +253,23 @@ class FilterViewController: UIViewController {
         button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         
         self.applyFilterButton = button
+    }
+}
+
+extension UIViewController
+{
+    func hideKeyboard()
+    {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(UIViewController.dismissKeyboard))
+        
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard()
+    {
+        view.endEditing(true)
     }
 }
