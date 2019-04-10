@@ -24,6 +24,7 @@ import RxSwift
         let maximumPriceTextFieldChanged: Driver<Float>
         let priceSliderChanged: Driver<(Float, Float)>
         let wholeSaleFilterChanged: Driver<Bool>
+        let officialStoreTagTrigger: Driver<Bool>
     }
     
     public struct Output {
@@ -32,6 +33,7 @@ import RxSwift
         let selectedMinimum: Driver<Float>
         let selectedMaximum: Driver<Float>
         let wholesaleSwitch: Driver<Bool>
+        let officialStoreSelected: Driver<Bool>
         let filter: Driver<Filter>
     }
     
@@ -54,13 +56,15 @@ import RxSwift
         )
         let filterDriver = Driver.combineLatest(
             priceChangedDriver,
-            input.wholeSaleFilterChanged.startWith(initialFilter.wholesale)
+            input.wholeSaleFilterChanged.startWith(initialFilter.wholesale),
+            input.officialStoreTagTrigger.startWith(initialFilter.official)
         ).map { arg -> Filter in
-            let ((lowerPrice, higherPrice), wholesale) = arg
+            let ((lowerPrice, higherPrice), wholesale, officialStoreTag) = arg
             return Filter(
                 pmin: Int(lowerPrice),
                 pmax: Int(higherPrice),
-                wholesale: wholesale
+                wholesale: wholesale,
+                official: officialStoreTag
             )
         }
         
@@ -94,6 +98,7 @@ import RxSwift
             selectedMinimum: selectedMinimum,
             selectedMaximum: selectedMaximum,
             wholesaleSwitch: wholesaleSwitch,
+            officialStoreSelected: input.officialStoreTagTrigger,
             filter: filterDriver
         )
     }

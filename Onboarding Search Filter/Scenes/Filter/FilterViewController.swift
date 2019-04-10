@@ -9,7 +9,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 import TTRangeSlider
-
+import TagListView
 class FilterViewController: UIViewController {
     private weak var priceLabelsView: UIView!
     private weak var minimumPriceTextField: UITextField!
@@ -19,6 +19,7 @@ class FilterViewController: UIViewController {
     private weak var wholesaleSwitch: UISwitch!
     private weak var goTo_shopTypePage_button: UIButton!
     private weak var applyFilterButton: UIButton!
+    private weak var officialStoreTag: TagView!
     
     private let disposeBag = DisposeBag()
     private var viewModel: FilterViewModel
@@ -74,13 +75,20 @@ class FilterViewController: UIViewController {
                 return self?.wholesaleSwitch.isOn ?? false
             }
             .asDriver(onErrorJustReturn: false)
-        
+        let officialStoreTagTrigger = officialStoreTag.rx.tap
+            .map { [weak self] _ -> Bool in
+                guard let oldValue = self?.officialStoreTag.isSelected else {return false}
+                let newValue = !oldValue
+                return newValue
+            }
+            .asDriver(onErrorJustReturn: false)
         let input = FilterViewModel.Input(
             viewDidLoadTrigger: viewDidLoadTrigger,
             minimumPriceTextFieldChanged: minimumPriceTextFieldChanged,
             maximumPriceTextFieldChanged: maximumPriceTextFieldChanged,
             priceSliderChanged: priceSliderChanged,
-            wholeSaleFilterChanged: wholeSaleFilterChanged
+            wholeSaleFilterChanged: wholeSaleFilterChanged,
+            officialStoreTagTrigger: officialStoreTagTrigger
         )
         
         let output = viewModel.transform(input: input)
@@ -98,6 +106,9 @@ class FilterViewController: UIViewController {
         }).disposed(by: disposeBag)
         output.wholesaleSwitch.drive(wholesaleSwitch.rx.isOn)
             .disposed(by: disposeBag)
+        output.officialStoreSelected.drive(onNext: { [weak self] (value) in
+            self?.officialStoreTag.isSelected = value
+        }).disposed(by: disposeBag)
         
         let applyFilterTrigger = applyFilterButton.rx.tap.asDriver()
         applyFilterTrigger.flatMapLatest({ (_) -> Driver<Filter> in
@@ -264,6 +275,41 @@ class FilterViewController: UIViewController {
         goTo_shopTypePage_button.sizeToFit()
         shopTypeTitleView.accessoryView = goTo_shopTypePage_button
         self.goTo_shopTypePage_button = goTo_shopTypePage_button
+        
+        
+        
+        let shopTypeContainerView = UIView()
+        shopTypeContainerView.backgroundColor = .white
+        view.addSubview(shopTypeContainerView)
+        
+        shopTypeContainerView.translatesAutoresizingMaskIntoConstraints = false
+        shopTypeContainerView.topAnchor.constraint(equalTo: shopTypeTitleView.bottomAnchor).isActive = true
+        shopTypeContainerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        shopTypeContainerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        shopTypeContainerView.heightAnchor.constraint(greaterThanOrEqualToConstant: CGFloat(50)).isActive = true
+        
+        let shopTypeTagListView = TagListView()
+        shopTypeTagListView.textFont = UIFont.systemFont(ofSize: 18)
+        shopTypeTagListView.cornerRadius = CGFloat(10)
+        shopTypeTagListView.tagBackgroundColor = .white
+        shopTypeTagListView.tagSelectedBackgroundColor = .tpGreen
+        shopTypeTagListView.textColor = .gray
+        shopTypeTagListView.borderColor = .gray
+        shopTypeTagListView.borderWidth = CGFloat(1)
+        shopTypeContainerView.addSubview(shopTypeTagListView)
+        
+        let margin = CGFloat(15)
+        shopTypeTagListView.translatesAutoresizingMaskIntoConstraints = false
+        shopTypeTagListView.topAnchor.constraint(equalTo: shopTypeContainerView.topAnchor).isActive = true
+        shopTypeTagListView.leadingAnchor.constraint(equalTo: shopTypeContainerView.leadingAnchor, constant: margin).isActive = true
+        shopTypeTagListView.trailingAnchor.constraint(equalTo: shopTypeContainerView.trailingAnchor, constant: -margin).isActive = true
+        shopTypeTagListView.heightAnchor.constraint(equalTo: shopTypeContainerView.heightAnchor).isActive = true
+        
+        let goldMerchantTag = shopTypeTagListView.addTag("Gold Merchant")
+        goldMerchantTag.onTap = {tagView in tagView.isSelected = true}
+        let officialStoreTag = shopTypeTagListView.addTag("Official Store")
+        officialStoreTag.isSelected = initialFilter.official
+        self.officialStoreTag = officialStoreTag
     }
     
     private func setupApplyButton(){
