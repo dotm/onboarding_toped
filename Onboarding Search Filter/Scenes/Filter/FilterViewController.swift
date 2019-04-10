@@ -19,6 +19,7 @@ class FilterViewController: UIViewController {
     private weak var wholesaleSwitch: UISwitch!
     private weak var goTo_shopTypePage_button: UIButton!
     private weak var applyFilterButton: UIButton!
+    private weak var goldMerchantTag: TagView!
     private weak var officialStoreTag: TagView!
     
     private let disposeBag = DisposeBag()
@@ -75,6 +76,13 @@ class FilterViewController: UIViewController {
                 return self?.wholesaleSwitch.isOn ?? false
             }
             .asDriver(onErrorJustReturn: false)
+        let goldMerchantTagTrigger = goldMerchantTag.rx.tap
+            .map { [weak self] _ -> Bool in
+                guard let oldValue = self?.goldMerchantTag.isSelected else {return false}
+                let newValue = !oldValue
+                return newValue
+            }
+            .asDriver(onErrorJustReturn: false)
         let officialStoreTagTrigger = officialStoreTag.rx.tap
             .map { [weak self] _ -> Bool in
                 guard let oldValue = self?.officialStoreTag.isSelected else {return false}
@@ -88,6 +96,7 @@ class FilterViewController: UIViewController {
             maximumPriceTextFieldChanged: maximumPriceTextFieldChanged,
             priceSliderChanged: priceSliderChanged,
             wholeSaleFilterChanged: wholeSaleFilterChanged,
+            goldMerchantTagTrigger: goldMerchantTagTrigger,
             officialStoreTagTrigger: officialStoreTagTrigger
         )
         
@@ -106,6 +115,9 @@ class FilterViewController: UIViewController {
         }).disposed(by: disposeBag)
         output.wholesaleSwitch.drive(wholesaleSwitch.rx.isOn)
             .disposed(by: disposeBag)
+        output.goldMerchantSelected.drive(onNext: { [weak self] (value) in
+            self?.goldMerchantTag.isSelected = value
+        }).disposed(by: disposeBag)
         output.officialStoreSelected.drive(onNext: { [weak self] (value) in
             self?.officialStoreTag.isSelected = value
         }).disposed(by: disposeBag)
@@ -306,7 +318,9 @@ class FilterViewController: UIViewController {
         shopTypeTagListView.heightAnchor.constraint(equalTo: shopTypeContainerView.heightAnchor).isActive = true
         
         let goldMerchantTag = shopTypeTagListView.addTag("Gold Merchant")
-        goldMerchantTag.onTap = {tagView in tagView.isSelected = true}
+        goldMerchantTag.isSelected = initialFilter.fshop == Filter.GOLD_MERCHANT_FSHOP_TAG
+        self.goldMerchantTag = goldMerchantTag
+        
         let officialStoreTag = shopTypeTagListView.addTag("Official Store")
         officialStoreTag.isSelected = initialFilter.official
         self.officialStoreTag = officialStoreTag
