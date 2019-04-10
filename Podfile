@@ -12,6 +12,7 @@ target 'Onboarding Search Filter' do
   
   pod 'TTRangeSlider'
   pod 'TagListView', '~> 1.0'
+  pod 'SimpleCheckbox'
 
 end
 
