@@ -12,6 +12,7 @@ import SimpleCheckbox
 
 class ShopFilterViewController: UIViewController {
     private weak var goldMerchantCheckboxRow: UIView!
+    private weak var applyFilterButton: UIButton!
     
     private let disposeBag = DisposeBag()
     let viewModel: ShopFilterViewModel
@@ -52,6 +53,7 @@ class ShopFilterViewController: UIViewController {
     private func setupLayout() {
         setupGoldMerchantCheckboxRow()
         setupOfficialStore(previousElement: goldMerchantCheckboxRow)
+        setupApplyButton()
     }
     private func setupGoldMerchantCheckboxRow() {
         let goldMerchantCheckboxRow = UITableViewCell(style: .value1, reuseIdentifier: "gold merchant row")
@@ -106,4 +108,19 @@ class ShopFilterViewController: UIViewController {
         officialStoreCheckbox.trailingAnchor.constraint(equalTo: officialStoreCheckboxRow.trailingAnchor, constant: -CGFloat(20)).isActive = true
     }
 
+    private func setupApplyButton(){
+        let button = UIButton()
+        button.setTitle("Apply", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .tpGreen
+        view.addSubview(button)
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        button.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        button.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        
+        self.applyFilterButton = button
+    }
 }
