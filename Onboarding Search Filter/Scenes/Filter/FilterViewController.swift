@@ -151,8 +151,8 @@ class FilterViewController: UIViewController {
         }).disposed(by: disposeBag)
         
         let goTo_shopTypePage_trigger = goTo_shopTypePage_button.rx.tap.asDriver()
-        goTo_shopTypePage_trigger.drive(onNext: { [weak self] () in
-            guard let filter = self?.initialFilter else {return}
+            .withLatestFrom(output.filter)
+        goTo_shopTypePage_trigger.drive(onNext: { [weak self] filter in
             let shopTypePage = ShopFilterViewController(filterObject: filter)
             self?.navigationController?.pushViewController(shopTypePage, animated: true)
         }).disposed(by: disposeBag)
