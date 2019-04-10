@@ -50,7 +50,7 @@ class FilterViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        let viewDidLoadTrigger = Driver.just(())
+        let setupFilter = Driver.just(initialFilter)
         
         let minimumPriceTextFieldChanged = minimumPriceTextField.rx.controlEvent(.editingDidEnd)
             .map{ [weak self] () -> Float in
@@ -91,7 +91,7 @@ class FilterViewController: UIViewController {
             }
             .asDriver(onErrorJustReturn: false)
         let input = FilterViewModel.Input(
-            viewDidLoadTrigger: viewDidLoadTrigger,
+            setupFilter: setupFilter,
             minimumPriceTextFieldChanged: minimumPriceTextFieldChanged,
             maximumPriceTextFieldChanged: maximumPriceTextFieldChanged,
             priceSliderChanged: priceSliderChanged,
@@ -101,6 +101,16 @@ class FilterViewController: UIViewController {
         )
         
         let output = viewModel.transform(input: input)
+        output.setupFilter.drive(onNext: { [weak self] (filter) in
+            guard let self = self else {return}
+            self.minimumPriceTextField.text = String(Int(filter.pmin))
+            self.maximumPriceTextField.text = String(Int(filter.pmax))
+            self.priceSlider.selectedMinimum = Float(filter.pmin)
+            self.priceSlider.selectedMaximum = Float(filter.pmax)
+            self.wholesaleSwitch.setOn(filter.wholesale, animated: true)
+            self.goldMerchantTag.isSelected = filter.fshop == Filter.GOLD_MERCHANT_FSHOP_TAG
+            self.officialStoreTag.isSelected = filter.official
+        }).disposed(by: disposeBag)
         output.minimumPriceText.drive(minimumPriceTextField.rx.text)
             .disposed(by: disposeBag)
         output.maximumPriceText.drive(maximumPriceTextField.rx.text)
@@ -235,8 +245,6 @@ class FilterViewController: UIViewController {
         let priceSlider = TTRangeSlider(frame: .zero)
         priceSlider.minValue = 0
         priceSlider.maxValue = 10_000_000
-        priceSlider.selectedMinimum = Float(initialFilter.pmin)
-        priceSlider.selectedMaximum = Float(initialFilter.pmax)
         priceSlider.enableStep = true
         priceSlider.step = 1000
         priceSlider.tintColor = .gray
@@ -266,7 +274,6 @@ class FilterViewController: UIViewController {
         //set cell properties
         containerView.textLabel?.text = "Whole Sale"
         let wholesaleSwitch = UISwitch()
-        wholesaleSwitch.setOn(initialFilter.wholesale, animated: false)
         containerView.accessoryView = wholesaleSwitch
         self.wholesaleSwitch = wholesaleSwitch
     }
@@ -318,11 +325,9 @@ class FilterViewController: UIViewController {
         shopTypeTagListView.heightAnchor.constraint(equalTo: shopTypeContainerView.heightAnchor).isActive = true
         
         let goldMerchantTag = shopTypeTagListView.addTag("Gold Merchant")
-        goldMerchantTag.isSelected = initialFilter.fshop == Filter.GOLD_MERCHANT_FSHOP_TAG
         self.goldMerchantTag = goldMerchantTag
         
         let officialStoreTag = shopTypeTagListView.addTag("Official Store")
-        officialStoreTag.isSelected = initialFilter.official
         self.officialStoreTag = officialStoreTag
     }
     

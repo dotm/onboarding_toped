@@ -19,7 +19,7 @@ import RxSwift
     }
     
     public struct Input {
-        let viewDidLoadTrigger: Driver<Void>
+        let setupFilter: Driver<Filter>
         let minimumPriceTextFieldChanged: Driver<Float>
         let maximumPriceTextFieldChanged: Driver<Float>
         let priceSliderChanged: Driver<(Float, Float)>
@@ -29,6 +29,7 @@ import RxSwift
     }
     
     public struct Output {
+        let setupFilter: Driver<Filter>
         let minimumPriceText: Driver<String>
         let maximumPriceText: Driver<String>
         let selectedMinimum: Driver<Float>
@@ -97,6 +98,7 @@ import RxSwift
         }
         
         return Output(
+            setupFilter: input.setupFilter,
             minimumPriceText: minimumPriceText,
             maximumPriceText: maximumPriceText,
             selectedMinimum: selectedMinimum,
