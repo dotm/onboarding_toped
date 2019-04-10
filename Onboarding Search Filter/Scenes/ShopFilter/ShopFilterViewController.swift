@@ -59,7 +59,7 @@ class ShopFilterViewController: UIViewController {
         let officialStoreTagTrigger = officialStoreCheckbox.rx.controlEvent(.valueChanged).asDriver()
             .map { [weak self] () -> Bool in
                 guard let self = self else {return false}
-                return self.goldMerchantCheckbox.isChecked
+                return self.officialStoreCheckbox.isChecked
             }
         let input = ShopFilterViewModel.Input(
             setupFilter: setupFilterSubject.asDriver(onErrorJustReturn: initialFilter),
