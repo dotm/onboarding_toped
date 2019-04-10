@@ -57,7 +57,7 @@ import RxSwift
             priceLabelChangedDriver,
             priceSliderChangedDriver
         )
-        let filterDriver = Driver.combineLatest(
+        let filterChangedDriver = Driver.combineLatest(
             priceChangedDriver,
             input.wholeSaleFilterChanged.startWith(initialFilter.wholesale),
             input.goldMerchantTagTrigger.startWith(initialFilter.fshop == Filter.GOLD_MERCHANT_FSHOP_TAG),
@@ -72,6 +72,11 @@ import RxSwift
                 fshop: goldMerchantTag ? Filter.GOLD_MERCHANT_FSHOP_TAG : Filter.DEFAULT_FSHOP_TAG
             )
         }
+        let filterResetDriver = input.setupFilter
+        let filterDriver = Driver.merge(
+            filterChangedDriver,
+            filterResetDriver
+        )
         
         let sliderLowerPriceChanged = priceSliderChangedDriver.map { (min, _) -> Float in return min }
         let minimumPriceText = Driver.merge(

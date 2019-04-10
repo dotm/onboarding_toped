@@ -12,13 +12,19 @@ import SimpleCheckbox
 
 class ShopFilterViewController: UIViewController {
     private weak var goldMerchantCheckboxRow: UIView!
+    private weak var goldMerchantCheckbox: Checkbox!
+    private weak var officialStoreCheckbox: Checkbox!
     private weak var applyFilterButton: UIButton!
     
     private let disposeBag = DisposeBag()
     let viewModel: ShopFilterViewModel
+    private let initialFilter: Filter
+    private var handleApplyFilter: (Filter)->()
     
-    public init(filterObject: Filter) {
+    public init(filterObject: Filter, handleApplyFilter: @escaping (Filter)->()) {
         viewModel = ShopFilterViewModel(filter: filterObject)
+        self.handleApplyFilter = handleApplyFilter
+        initialFilter = filterObject
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -34,12 +40,62 @@ class ShopFilterViewController: UIViewController {
     }
     
     private func bindViewModel() {
+        let setupFilterSubject = PublishSubject<Filter>()
+        if let resetButton = self.navigationItem.rightBarButtonItem {
+            let resetFilterDriver = resetButton.rx.tap.asDriver()
+            resetFilterDriver
+                .drive(onNext: { [weak self] () in
+                    guard let self = self else {return}
+                    setupFilterSubject.onNext(self.initialFilter)
+                })
+                .disposed(by: disposeBag)
+        }
         
+        let goldMerchantTagTrigger = goldMerchantCheckbox.rx.controlEvent(.valueChanged).asDriver()
+            .map { [weak self] () -> Bool in
+                guard let self = self else {return false}
+                return self.goldMerchantCheckbox.isChecked
+            }
+        let officialStoreTagTrigger = officialStoreCheckbox.rx.controlEvent(.valueChanged).asDriver()
+            .map { [weak self] () -> Bool in
+                guard let self = self else {return false}
+                return self.goldMerchantCheckbox.isChecked
+            }
+        let input = ShopFilterViewModel.Input(
+            setupFilter: setupFilterSubject.asDriver(onErrorJustReturn: initialFilter),
+            goldMerchantTagTrigger: goldMerchantTagTrigger,
+            officialStoreTagTrigger: officialStoreTagTrigger
+        )
+        
+        let output = viewModel.transform(input: input)
+        output.setupFilter.drive(onNext: { [weak self] (filter) in
+            guard let self = self else {return}
+            self.goldMerchantCheckbox.isChecked = filter.fshop == Filter.GOLD_MERCHANT_FSHOP_TAG
+            self.officialStoreCheckbox.isChecked = filter.official
+        }).disposed(by: disposeBag)
+        output.goldMerchantSelected.drive(onNext: { [weak self] (value) in
+            self?.goldMerchantCheckbox.isChecked = value
+        }).disposed(by: disposeBag)
+        output.officialStoreSelected.drive(onNext: { [weak self] (value) in
+            self?.officialStoreCheckbox.isChecked = value
+        }).disposed(by: disposeBag)
+        
+        let applyFilterTrigger = applyFilterButton.rx.tap.asDriver()
+        applyFilterTrigger.flatMapLatest({ (_) -> Driver<Filter> in
+            return output.filter
+        }).drive(onNext: { [weak self] (newFilter) in
+            self?.handleApplyFilter(newFilter)
+            self?.closePage()
+        }).disposed(by: disposeBag)
+        
+        setupFilterSubject.onNext(initialFilter)
     }
     
     private func setupNavBar() {
         self.navigationItem.title = "Shop Type"
         self.navigationItem.leftBarButtonItem = closeButton
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Reset", style: .plain, target: nil, action: nil)
+        self.navigationItem.rightBarButtonItem?.tintColor = .tpGreen
     }
     private var closeButton: UIBarButtonItem {
         let button = UIBarButtonItem(image: UIImage(named: "cross"), style: .plain, target: self, action: #selector(closePage))
@@ -81,6 +137,8 @@ class ShopFilterViewController: UIViewController {
         goldMerchantCheckbox.heightAnchor.constraint(equalToConstant: CGFloat(20)).isActive = true
         goldMerchantCheckbox.centerYAnchor.constraint(equalTo: goldMerchantCheckboxRow.centerYAnchor).isActive = true
         goldMerchantCheckbox.trailingAnchor.constraint(equalTo: goldMerchantCheckboxRow.trailingAnchor, constant: -CGFloat(20)).isActive = true
+        
+        self.goldMerchantCheckbox = goldMerchantCheckbox
     }
     private func setupOfficialStore(previousElement: UIView) {
         let officialStoreCheckboxRow = UITableViewCell(style: .value1, reuseIdentifier: "official store row")
@@ -106,6 +164,8 @@ class ShopFilterViewController: UIViewController {
         officialStoreCheckbox.heightAnchor.constraint(equalToConstant: CGFloat(20)).isActive = true
         officialStoreCheckbox.centerYAnchor.constraint(equalTo: officialStoreCheckboxRow.centerYAnchor).isActive = true
         officialStoreCheckbox.trailingAnchor.constraint(equalTo: officialStoreCheckboxRow.trailingAnchor, constant: -CGFloat(20)).isActive = true
+        
+        self.officialStoreCheckbox = officialStoreCheckbox
     }
 
     private func setupApplyButton(){
