@@ -93,9 +93,6 @@ import RxSwift
         let selectedMaximum = priceLabelChangedDriver.map { (_, max) -> Float in
             return max
         }
-        let wholesaleSwitch = filterDriver.map { (filter) -> Bool in
-            return filter.wholesale
-        }
         
         return Output(
             setupFilter: input.setupFilter,
@@ -103,7 +100,7 @@ import RxSwift
             maximumPriceText: maximumPriceText,
             selectedMinimum: selectedMinimum,
             selectedMaximum: selectedMaximum,
-            wholesaleSwitch: wholesaleSwitch,
+            wholesaleSwitch: input.wholeSaleFilterChanged,
             goldMerchantSelected: input.goldMerchantTagTrigger,
             officialStoreSelected: input.officialStoreTagTrigger,
             filter: filterDriver

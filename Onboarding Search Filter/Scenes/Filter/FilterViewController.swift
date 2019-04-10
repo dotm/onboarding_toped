@@ -10,6 +10,7 @@ import RxCocoa
 import RxSwift
 import TTRangeSlider
 import TagListView
+
 class FilterViewController: UIViewController {
     private weak var priceLabelsView: UIView!
     private weak var minimumPriceTextField: UITextField!
@@ -50,7 +51,16 @@ class FilterViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        let setupFilter = Driver.just(initialFilter)
+        let setupFilterSubject = PublishSubject<Filter>()
+        if let resetButton = self.navigationItem.rightBarButtonItem {
+            let resetFilterDriver = resetButton.rx.tap.asDriver()
+            resetFilterDriver
+                .drive(onNext: { [weak self] () in
+                    guard let self = self else {return}
+                    setupFilterSubject.onNext(self.initialFilter)
+                })
+                .disposed(by: disposeBag)
+        }
         
         let minimumPriceTextFieldChanged = minimumPriceTextField.rx.controlEvent(.editingDidEnd)
             .map{ [weak self] () -> Float in
@@ -91,7 +101,7 @@ class FilterViewController: UIViewController {
             }
             .asDriver(onErrorJustReturn: false)
         let input = FilterViewModel.Input(
-            setupFilter: setupFilter,
+            setupFilter: setupFilterSubject.asDriver(onErrorJustReturn: initialFilter),
             minimumPriceTextFieldChanged: minimumPriceTextFieldChanged,
             maximumPriceTextFieldChanged: maximumPriceTextFieldChanged,
             priceSliderChanged: priceSliderChanged,
@@ -146,6 +156,8 @@ class FilterViewController: UIViewController {
             let shopTypePage = ShopFilterViewController(filterObject: filter)
             self?.navigationController?.pushViewController(shopTypePage, animated: true)
         }).disposed(by: disposeBag)
+        
+        setupFilterSubject.onNext(initialFilter)
     }
     private func setupLayout(){
         setupNavBar()
@@ -158,6 +170,8 @@ class FilterViewController: UIViewController {
     private func setupNavBar() {
         self.navigationItem.title = "Filter"
         self.navigationItem.leftBarButtonItem = closeButton
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Reset", style: .plain, target: nil, action: nil)
+        self.navigationItem.rightBarButtonItem?.tintColor = .tpGreen
     }
     private var closeButton: UIBarButtonItem {
         let button = UIBarButtonItem(image: UIImage(named: "cross"), style: .plain, target: self, action: #selector(closePage))
