@@ -17,6 +17,8 @@ public class SearchViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     private var viewModel: SearchViewModel
+    
+    private let newFilterSubject = PublishSubject<Filter>()
 
     public init() {
         viewModel = SearchViewModel(filter: Filter(), useCase: DefaultSearchUseCase())
@@ -59,14 +61,11 @@ public class SearchViewController: UIViewController {
             return .empty()
         }
         
-        let newFilterSubject = PublishSubject<Filter>()
-        let newFilterDriver = newFilterSubject.asDriver(onErrorJustReturn: Filter())
-        
         let input = SearchViewModel.Input(
             viewDidLoadTrigger: Driver.just(()),
             loadMoreTrigger: loadMoreTrigger,
             filterButtonTapTrigger: filterButton.rx.tap.asDriver(),
-            newFilterTrigger: newFilterDriver
+            newFilterTrigger: newFilterSubject.asDriver{error in Driver.empty()}
         )
         
         let output = viewModel.transform(input: input)
@@ -79,17 +78,16 @@ public class SearchViewController: UIViewController {
             }.disposed(by: disposeBag)
         
         output.openFilter.drive(onNext: { [weak self] filter in
+            guard let self = self else {return}
             let filterVC = FilterViewController(
                 filterObject: filter,
-                handleApplyFilter: { filter in
-                    newFilterSubject.onNext(filter)
-                },
                 didClose: { [weak self] in
                     self?.collectionView.setContentOffset(.zero, animated: true) //scroll to top
                 }
             )
+            filterVC.saveTriggerDriver.drive(self.newFilterSubject).disposed(by: self.disposeBag)
             let navigationController = UINavigationController(rootViewController: filterVC)
-            self?.navigationController?.present(navigationController, animated: true, completion: nil)
+            self.navigationController?.present(navigationController, animated: true, completion: nil)
         }).disposed(by: disposeBag)
     }
 

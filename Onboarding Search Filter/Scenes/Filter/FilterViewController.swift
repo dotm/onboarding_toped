@@ -25,13 +25,16 @@ class FilterViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     private var viewModel: FilterViewModel
-    private var handleApplyFilter: (Filter)->()
     private var didClose: (()->())?
     private let initialFilter: Filter
     
-    public init(filterObject: Filter, handleApplyFilter: @escaping (Filter)->(), didClose: (()->())? = nil) {
+    private let saveTriggerSubject = PublishSubject<Filter>()
+    internal var saveTriggerDriver: Driver<Filter> {
+        return saveTriggerSubject.asDriver{ error in Driver.empty()}
+    }
+    
+    public init(filterObject: Filter, didClose: (()->())? = nil) {
         viewModel = FilterViewModel(filter: filterObject)
-        self.handleApplyFilter = handleApplyFilter
         self.didClose = didClose
         self.initialFilter = filterObject
         super.init(nibName: nil, bundle: nil)
@@ -146,7 +149,7 @@ class FilterViewController: UIViewController {
         applyFilterTrigger.flatMapLatest({ (_) -> Driver<Filter> in
             return output.filter
         }).drive(onNext: { [weak self] (newFilter) in
-            self?.handleApplyFilter(newFilter)
+            self?.saveTriggerSubject.onNext(newFilter)
             self?.closePage()
         }).disposed(by: disposeBag)
         
